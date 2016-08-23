@@ -101,7 +101,7 @@ exports.seed = function(knex, Promise) {
           creation_date: new Date()
         }),
 
-        knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 6')
+        knex.raw('ALTER SEQUENCE classes_id_seq RESTART WITH 6')
 
       ]);
     });

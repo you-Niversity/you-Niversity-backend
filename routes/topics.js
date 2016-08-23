@@ -4,9 +4,9 @@ var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
 
-//get all classes
+//get all topics
 router.get('/', function(req, res, next) {
-  return knex ('classes')
+  return knex ('topics')
     .select('*')
     .then(function(data){
       res.send(data);
@@ -16,9 +16,9 @@ router.get('/', function(req, res, next) {
     });
 });
 
-//get class
+//get topic
 router.get('/:id', function(req, res, next) {
-  return knex('classes')
+  return knex('topics')
     .select('*')
     .where({id:req.params.id})
     .then(function(data){
@@ -29,27 +29,11 @@ router.get('/:id', function(req, res, next) {
     });
 });
 
-//add class
+//add topic
 router.post('/', function(req, res, next) {
-  var newClass = {
-    title: req.body.title,
-    //topic_id: 2,
-    //date: '2016-09-25T01:00:00-07:00',
-    city: req.body.city,
-    state: req.body.state,
-    zip_code: req.body.zip_code,
-    address: req.body.address,
-    price: req.body.price,
-    description: req.body.description,
-    prerequisites: req.body.prerequisites,
-    duration: req.body.duration,
-    total_seats: req.body.total_seats,
-    seats_remaining: req.body.total_seats,
-    //user_id: 6,
-    creation_date: new Date()
-  };
-  return knex('classes')
-    .insert(newClass)
+  console.log(req.body);
+  return knex('topics')
+    .insert({title:req.body.title})
     .then(function(data){
       res.send(data);
     })
@@ -58,14 +42,14 @@ router.post('/', function(req, res, next) {
     });
 });
 
-//edit class
+//edit topic
 router.put('/:id', function(req, res, next) {
-  //TODO knex update class
+  //TODO knex update topic
 });
 
-//delete class
+//delete topic
 router.delete('/:id', function(req, res, next) {
-  //TODO knex delete class
+  //TODO knex delete topic
 });
 
 module.exports = router;

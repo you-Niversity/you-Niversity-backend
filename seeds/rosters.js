@@ -78,7 +78,7 @@ exports.seed = function(knex, Promise) {
           class_id: 5
         }),
 
-        knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 13')
+        knex.raw('ALTER SEQUENCE rosters_id_seq RESTART WITH 13')
 
 
       ]);

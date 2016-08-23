@@ -31,7 +31,7 @@ exports.seed = function(knex, Promise) {
           title: 'blog writing'
         }),
 
-        knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 6')
+        knex.raw('ALTER SEQUENCE topics_id_seq RESTART WITH 6')
       ]);
     });
 };
