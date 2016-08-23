@@ -11,7 +11,7 @@ exports.seed = function(knex, Promise) {
           last_name: 'Foster-Marks',
           username: 'kfoster',
           email: 'kristenlfoster@gmail.com',
-          password: '1234',
+          password: '$2a$10$wPP4UswIwvT/wmlRh0CUv.xzYmoqISLAM7jAjteZ873Ku9laaxcZm',
           profile_pic: 'http://placehold.it/225x225',
           city: 'Loveland',
           state: 'CO',

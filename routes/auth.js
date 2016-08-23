@@ -36,18 +36,7 @@ function checkPassword(req, info) {
 
 
 router.post('/signup', function(req, res, next){
-  var user = {
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
-    profile_pic: req.body.profile_pic,
-    city: req.body.city,
-    state: req.body.state,
-    is_expert: req.body.is_expert,
-    is_admin: false
-  };
+
   var info = {
     user: req.body.username,
     passwordError: false,
@@ -58,7 +47,7 @@ router.post('/signup', function(req, res, next){
   //checkPassword(req, info);
 
   //check if username exists in db...
-  userExistsInDB(user.username)
+  userExistsInDB(req.body.username)
     .then(function(result) {
       //Roger suggests IF TIME move below logic to userExistsInDB function, returning promise
       if (info.passwordError) {
@@ -92,7 +81,7 @@ router.post('/signup', function(req, res, next){
               console.log('made it past knex query');
               var profile = {
                 id: id[0],
-                username: user.username
+                username: req.body.username
               };
               var token = jwt.sign(profile, process.env.SECRET);
               console.log(token);
@@ -127,7 +116,6 @@ router.post('/login', function(req, res, next) {
       bcrypt.compare(user.password, result[0].password, function(err, result) {
         console.log(result);
         if (result === false) {
-      // if(user.password !== result.password) {
           res.status(401).send({message:'Incorrect username or password'});
           return;
         } else {
@@ -137,12 +125,11 @@ router.post('/login', function(req, res, next) {
           };
           console.log(profile);
           var token = jwt.sign(profile, process.env.SECRET);
-          res.status(200).json({ token:token, id:profile.id });
+          res.status(200).json({ token:token, id:profile.id, username:profile.username });
         }
       });
     }
   });
 });
-
 
 module.exports = router;
