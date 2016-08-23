@@ -49,7 +49,11 @@ router.put('/:id', function(req, res, next) {
 
 //delete topic
 router.delete('/:id', function(req, res, next) {
-  //TODO knex delete topic
+  knex('topics').delete().where({id: req.params.id}).then(function() {
+    console.log('topic deleted');
+  }).catch(function(err) {
+    console.log(err);
+  });
 });
 
 module.exports = router;

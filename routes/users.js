@@ -36,7 +36,11 @@ router.put('/:id', function(req, res, next) {
 
 //delete user
 router.delete('/:id', function(req, res, next) {
-  //TODO knex delete user
+  knex('users').delete().where({id: req.params.id}).then(function() {
+    console.log('user account deleted');
+  }).catch(function(err) {
+    console.log(err);
+  });
 });
 
 module.exports = router;

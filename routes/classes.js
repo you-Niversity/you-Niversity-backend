@@ -65,7 +65,11 @@ router.put('/:id', function(req, res, next) {
 
 //delete class
 router.delete('/:id', function(req, res, next) {
-  //TODO knex delete class
+  knex('classes').delete().where({id: req.params.id}).then(function() {
+    console.log('class deleted');
+  }).catch(function(err) {
+    console.log(err);
+  });
 });
 
 module.exports = router;
