@@ -1,0 +1,33 @@
+{
+  "name": "you-niversity-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node_modules/.bin/knex migrate:rollback && node_modules/.bin/knex migrate:latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/you-Niversity/you-Niversity-backend.git"
+  },
+  "author": "kfostermarks",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/you-Niversity/you-Niversity-backend/issues"
+  },
+  "homepage": "https://github.com/you-Niversity/you-Niversity-backend#readme",
+  "dependencies": {
+    "bcrypt": "^0.8.7",
+    "body-parser": "^1.15.2",
+    "cors": "^2.7.1",
+    "dotenv": "^2.0.0",
+    "express": "^4.14.0",
+    "express-jwt": "^3.4.0",
+    "jsonwebtoken": "^7.1.9",
+    "knex": "^0.11.10",
+    "method-override": "^2.3.6",
+    "morgan": "^1.7.0",
+    "pg": "^6.1.0"
+  }
+}
