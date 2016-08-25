@@ -9,7 +9,8 @@ router.get('/', function(req, res, next){
   return knex ('users')
     .select('*')
     .then(function(data){
-      res.send(data);
+      console.log(data);
+      res.json(data);
     })
     .catch(function(err){
       console.log(err);

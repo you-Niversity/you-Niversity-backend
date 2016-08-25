@@ -6,6 +6,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
 var methodOverride = require('method-override');
+var cors = require('cors');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -15,10 +16,18 @@ var auth = require('./routes/auth');
 
 var app = express();
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(methodOverride('_method'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//allows cross-origin requests
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
 
 app.use('/', index);
 app.use('/users', users);
