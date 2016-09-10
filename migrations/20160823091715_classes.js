@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
   return knex.schema.createTable('classes', function(table){
     table.increments('id');
     table.string('title');
-    table.integer('topic_id');
+    table.text('image_url');
     table.timestamp('date');
     table.string('city');
     table.string('state');

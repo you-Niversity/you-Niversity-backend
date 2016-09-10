@@ -8,9 +8,9 @@ var expressJwt = require('express-jwt');
 var jwt = require('jsonwebtoken');
 
 //function checks to see if user already exists in db
-function userExistsInDB(username) {
+function userExistsInDB(email) {
   console.log("entered userExistsInDB function");
-  return knex.select('*').from('users').where({username: username});
+  return knex.select('*').from('users').where({email: email});
 }
 
 //function validates password
@@ -38,7 +38,7 @@ function checkPassword(req, info) {
 router.post('/signup', function(req, res, next){
 
   var info = {
-    user: req.body.username,
+    email: req.body.email,
     passwordError: false,
     error: {}
   };
@@ -46,8 +46,8 @@ router.post('/signup', function(req, res, next){
   //validate password
   //checkPassword(req, info);
 
-  //check if username exists in db...
-  userExistsInDB(req.body.username)
+  //check if email exists in db...
+  userExistsInDB(req.body.email)
     .then(function(result) {
       //Roger suggests IF TIME move below logic to userExistsInDB function, returning promise
       if (info.passwordError) {
@@ -56,7 +56,7 @@ router.post('/signup', function(req, res, next){
         return;
       } else if (result.length >=1) {
         console.log('user already exists in system');
-        res.status(401).json({message:'Sorry, but that username already exists!'});
+        res.status(401).json({message:'Sorry, but that email already exists!'});
         return;
       } else {
         //create the new user
@@ -67,7 +67,6 @@ router.post('/signup', function(req, res, next){
             knex('users').insert({
               first_name: req.body.first_name,
               last_name: req.body.last_name,
-              username: req.body.username,
               email: req.body.email,
               password: hash,
               profile_pic: req.body.profile_pic,
@@ -81,7 +80,8 @@ router.post('/signup', function(req, res, next){
               console.log('made it past knex query');
               var profile = {
                 id: id[0],
-                username: req.body.username
+                first_name: req.body.first_name,
+                last_name: req.body.last_name
               };
               var token = jwt.sign(profile, process.env.SECRET);
               console.log(token);
@@ -101,31 +101,32 @@ router.post('/signup', function(req, res, next){
 
 router.post('/login', function(req, res, next) {
   var user = {
-    username: req.body.username,
+    email: req.body.email,
     password: req.body.password
   };
-  //check if username exists in db...
-  userExistsInDB(user.username)
+  //check if email exists in db...
+  userExistsInDB(user.email)
   .then(function(result){
     if (result.length === 0) {
       //user does not exist in system
-      res.status(401).json({message:'Username does not exist.'});
+      res.status(401).json({message:'Email does not exist.'});
       return;
     } else {
       user.id = result[0].id;
       bcrypt.compare(user.password, result[0].password, function(err, result) {
         console.log(result);
         if (result === false) {
-          res.status(401).send({message:'Incorrect username or password'});
+          res.status(401).send({message:'Incorrect email or password'});
           return;
         } else {
           var profile = {
             id: user.id,
-            username: user.username
+            first_name: user.first_name,
+            last_name: user.last_name
           };
           console.log(profile);
           var token = jwt.sign(profile, process.env.SECRET);
-          res.status(200).json({ token:token, id:profile.id, username:profile.username });
+          res.status(200).json({ token:token, profile:profile });
         }
       });
     }

@@ -9,7 +9,7 @@ exports.seed = function(knex, Promise) {
         knex('classes').insert({
           id: 1,
           title: 'Ultrarunning 101',
-          topic_id: 2,
+          image_url: 'https://hd.unsplash.com/photo-1456613820599-bfe244172af5',
           date: '2016-09-25T01:00:00-07:00',
           city: 'Boulder',
           state: 'CO',
@@ -28,7 +28,7 @@ exports.seed = function(knex, Promise) {
         knex('classes').insert({
           id: 2,
           title: 'Intro to Beat Mixing',
-          topic_id: 1,
+          image_url: 'https://hd.unsplash.com/photo-1470225620780-dba8ba36b745',
           date: '2016-09-15T01:00:00-07:00',
           city: 'Loveland',
           state: 'CO',
@@ -47,7 +47,7 @@ exports.seed = function(knex, Promise) {
         knex('classes').insert({
           id: 3,
           title: 'Mountain Trail Ride',
-          topic_id: 1,
+          image_url: 'https://hd.unsplash.com/photo-1458838224802-28a9ca87e100',
           date: '2016-10-01T10:00:00-07:00',
           city: 'Guffey',
           state: 'CO',
@@ -66,7 +66,7 @@ exports.seed = function(knex, Promise) {
         knex('classes').insert({
           id: 4,
           title: 'Salsa Dance Lessons',
-          topic_id: 4,
+          image_url: 'http://98441.cdx.c.ooyala.com/41Y3djczqSIyADi4gLvsSgIjSvTi3yW4/promo251658312',
           date: '2016-10-05T10:00:00-07:00',
           city: 'Longmont',
           state: 'CO',
@@ -85,7 +85,7 @@ exports.seed = function(knex, Promise) {
         knex('classes').insert({
           id: 5,
           title: 'How to Publish a Successful Blog',
-          topic_id: 5,
+          image_url: 'https://hd.unsplash.com/photo-1452830978618-d6feae7d0ffa',
           date: '2016-10-09T10:00:00-07:00',
           city: 'Fort Collins',
           state: 'CO',
@@ -101,7 +101,102 @@ exports.seed = function(knex, Promise) {
           creation_date: new Date()
         }),
 
-        knex.raw('ALTER SEQUENCE classes_id_seq RESTART WITH 6')
+        knex('classes').insert({
+          id: 6,
+          title: 'Yoga on the Ridge',
+          image_url: 'https://hd.unsplash.com/photo-1447452001602-7090c7ab2db3',
+          date: '2016-11-09T10:00:00-07:00',
+          city: 'Fort Collins',
+          state: 'CO',
+          zip_code: 80526,
+          address: 'Rotary Park',
+          price: 6,
+          description: 'Let\'s do yoga together! This class is for beginner to intermediate students, and will be a fast-paced cardio workout. If we\'re lucky, we\'ll be interrupted by the local deer.',
+          prerequisites: 'No prior experience with yoga is necessary! Please remember to bring your own mat, some water, and probably a towel.',
+          duration: 1,
+          total_seats: 10,
+          seats_remaining: 10,
+          user_id: 4,
+          creation_date: new Date()
+        }),
+
+        knex('classes').insert({
+          id: 7,
+          title: 'Parenting: The Good, the Bad, the Ugly',
+          image_url: 'https://hd.unsplash.com/photo-1438962136829-452260720431',
+          date: '2016-10-19T10:00:00-07:00',
+          city: 'Greeley',
+          state: 'CO',
+          zip_code: 80634,
+          address: '5401 W 20th St',
+          price: 15,
+          description: 'Are you thinking about becoming a parent, or have one on the way? Come have a candid discussion about the joys and miseries of parenthood, and walk away with plenty of tips and advice. Topics will include feeding, crying, changing diapers, and finding reliable babysitters.',
+          prerequisites: null,
+          duration: 4,
+          total_seats: 10,
+          seats_remaining: 10,
+          user_id: 3,
+          creation_date: new Date()
+        }),
+
+        knex('classes').insert({
+          id: 8,
+          title: 'Sharing Household Chores the Right Way',
+          image_url: 'https://hd.unsplash.com/photo-1462475279937-40cb2b162a99',
+          date: '2016-10-12T10:00:00-07:00',
+          city: 'Berthoud',
+          state: 'CO',
+          zip_code: 80513,
+          address: '236 Welch Ave',
+          price: 10,
+          description: 'One of the primary causes of relationship distress is the inequitable distribution of household chores. In this class, listen to and be guided by a certified marital and family counselor in developing healthy strategies for distributing duties and handling conflict related to household chores.',
+          prerequisites: 'Bring your partner or roommate to this one! Progress is made only when both parties are on board to make changes. Reserving one seat assumes that two people will come for the class.',
+          duration: 2,
+          total_seats: 5,
+          seats_remaining: 5,
+          user_id: 2,
+          creation_date: new Date()
+        }),
+
+        knex('classes').insert({
+          id: 9,
+          title: 'Living a Life of Self-Employment',
+          image_url: 'https://hd.unsplash.com/photo-1458847462994-d6e8043299f6',
+          date: '2016-10-23T10:00:00-07:00',
+          city: 'Loveland',
+          state: 'CO',
+          zip_code: 80537,
+          address: '623 Denver Ave',
+          price: 10,
+          description: 'If you\re tired of working for the man, come listen and learn how to make it on your own. Topics will include how to make your new employment dream a reality, how to quit your present job tactfully, and how to live frugally while you\re figuring it out.',
+          prerequisites: 'Job dissatisfaction!',
+          duration: 1.5,
+          total_seats: 8,
+          seats_remaining: 8,
+          user_id: 9,
+          creation_date: new Date()
+        }),
+
+        knex('classes').insert({
+          id: 10,
+          title: 'Critically Consuming News',
+          image_url: 'https://hd.unsplash.com/photo-1444653614773-995cb1ef9efa',
+          date: '2016-10-26T10:00:00-07:00',
+          city: 'Fort Collins',
+          state: 'CO',
+          zip_code: 80524,
+          address: '120 W Laurel St',
+          price: 15,
+          description: 'With the proliferation of citizen reporting and easy access to information, it has never seemed more important to critically evaluate our sources of information. Take part in this workshop that explains the ideas of purpose, context, and stakeholders, and how these combine to create carefully crafted messages for the public.',
+          prerequisites: 'Come with two things printed: An article that you believe has some bias, as well as four or five reader comments written in response to that article. We will analyze these together.',
+          duration: 3,
+          total_seats: 10,
+          seats_remaining: 10,
+          user_id: 4,
+          creation_date: new Date()
+        }),
+
+        knex.raw('ALTER SEQUENCE classes_id_seq RESTART WITH 11')
 
       ]);
     });

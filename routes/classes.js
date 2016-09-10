@@ -35,6 +35,7 @@ router.post('/', function(req, res, next) {
     title: req.body.title,
     //topic_id: 2,
     //date: '2016-09-25T01:00:00-07:00',
+    image_url: req.body.image_url,
     city: req.body.city,
     state: req.body.state,
     zip_code: req.body.zip_code,
