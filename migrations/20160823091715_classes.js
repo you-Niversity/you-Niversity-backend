@@ -6,10 +6,12 @@ exports.up = function(knex, Promise) {
     table.string('title');
     table.text('image_url');
     table.timestamp('date');
+    table.decimal('lat', 9, 6);
+    table.decimal('lng', 9, 6);
+    table.string('address');
     table.string('city');
     table.string('state');
     table.integer('zip_code');
-    table.string('address');
     table.integer('price');
     table.text('description');
     table.text('prerequisites');

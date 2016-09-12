@@ -19,8 +19,9 @@ router.get('/', function(req, res, next) {
 //get class
 router.get('/:id', function(req, res, next) {
   return knex('classes')
+    .join('users', {'users.id' : 'classes.user_id'})
     .select('*')
-    .where({id:req.params.id})
+    .where({'classes.id' : req.params.id})
     .then(function(data){
       res.send(data);
     })
@@ -33,13 +34,14 @@ router.get('/:id', function(req, res, next) {
 router.post('/', function(req, res, next) {
   var newClass = {
     title: req.body.title,
-    //topic_id: 2,
-    //date: '2016-09-25T01:00:00-07:00',
     image_url: req.body.image_url,
+    //date: '2016-09-25T01:00:00-07:00',
+    lat: req.body.lat,
+    lng: req.body.lng,
+    address: req.body.address,
     city: req.body.city,
     state: req.body.state,
     zip_code: req.body.zip_code,
-    address: req.body.address,
     price: req.body.price,
     description: req.body.description,
     prerequisites: req.body.prerequisites,
