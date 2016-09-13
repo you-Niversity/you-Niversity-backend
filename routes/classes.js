@@ -32,10 +32,11 @@ router.get('/:id', function(req, res, next) {
 
 //add class
 router.post('/', function(req, res, next) {
+  console.log(req.body.address);
   var newClass = {
     title: req.body.title,
     image_url: req.body.image_url,
-    //date: '2016-09-25T01:00:00-07:00',
+    date: req.body.date,
     lat: req.body.lat,
     lng: req.body.lng,
     address: req.body.address,
@@ -45,7 +46,8 @@ router.post('/', function(req, res, next) {
     price: req.body.price,
     description: req.body.description,
     prerequisites: req.body.prerequisites,
-    duration: req.body.duration,
+    start_time: req.body.start_time,
+    end_time: req.body.end_time,
     total_seats: req.body.total_seats,
     seats_remaining: req.body.total_seats,
     //user_id: 6,

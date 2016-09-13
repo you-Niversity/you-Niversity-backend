@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     table.increments('id');
     table.string('title');
     table.text('image_url');
-    table.timestamp('date');
+    table.string('date');
     table.decimal('lat', 9, 6);
     table.decimal('lng', 9, 6);
     table.string('address');
@@ -15,7 +15,8 @@ exports.up = function(knex, Promise) {
     table.integer('price');
     table.text('description');
     table.text('prerequisites');
-    table.float('duration');
+    table.string('start_time');
+    table.string('end_time');
     table.integer('total_seats');
     table.integer('seats_remaining');
     table.integer('user_id');

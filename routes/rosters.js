@@ -10,7 +10,7 @@ router.get('/:id', function(req, res, next){
   return knex('rosters')
     .join('classes', {'classes.id': 'rosters.class_id'})
     .join('users', {'users.id': 'rosters.user_id'})
-    .select('first_name', 'last_name', 'profile_pic')
+    .select('users.id', 'first_name', 'last_name', 'profile_pic')
     .where({'classes.id' : req.params.id})
     .then(function(data){
       res.send(data);
