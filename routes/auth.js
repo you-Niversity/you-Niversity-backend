@@ -22,16 +22,16 @@ function checkPassword(req, info) {
     info.passwordError = true;
     info.error.password.push({message: "Password should be 8 or more characters."});
   }
-  var regex = /\d/g;
-  if (!req.body.password.match(regex)) {
-    info.passwordError = true;
-    info.error.password.push({message: "Password must contain at least one number."});
-  }
-  var regex = /\W/g;
-  if (!req.body.password.match(regex)) {
-    info.passwordError = true;
-    info.error.password.push({message: "Password must contain at least one special character."});
-  }
+  // var regex = /\d/g;
+  // if (!req.body.password.match(regex)) {
+  //   info.passwordError = true;
+  //   info.error.password.push({message: "Password must contain at least one number."});
+  // }
+  // var regex = /\W/g;
+  // if (!req.body.password.match(regex)) {
+  //   info.passwordError = true;
+  //   info.error.password.push({message: "Password must contain at least one special character."});
+  // }
 }
 
 
@@ -44,7 +44,7 @@ router.post('/signup', function(req, res, next){
   };
 
   //validate password
-  //checkPassword(req, info);
+  checkPassword(req, info);
 
   //check if email exists in db...
   userExistsInDB(req.body.email)
@@ -108,10 +108,12 @@ router.post('/login', function(req, res, next) {
   userExistsInDB(user.email)
   .then(function(result){
     if (result.length === 0) {
+      console.log('user does not exist');
       //user does not exist in system
       res.status(401).json({message:'Email does not exist.'});
       return;
     } else {
+      console.log('user does indeed exist');
       user.id = result[0].id;
       bcrypt.compare(user.password, result[0].password, function(err, result) {
         console.log(result);
