@@ -86,7 +86,7 @@ router.post('/signup', function(req, res, next){
               var token = jwt.sign(profile, process.env.SECRET);
               console.log(token);
               // res.status(200).json({ token:token });
-              res.send(id);
+              res.send(profile);
             })
 
             .catch(function(err){
@@ -114,9 +114,11 @@ router.post('/login', function(req, res, next) {
       return;
     } else {
       console.log('user does indeed exist');
+      console.log(result);
       user.id = result[0].id;
+      user.first_name = result[0].first_name;
+      user.last_name = result[0].last_name;
       bcrypt.compare(user.password, result[0].password, function(err, result) {
-        console.log(result);
         if (result === false) {
           res.status(401).send({message:'Incorrect email or password'});
           return;
