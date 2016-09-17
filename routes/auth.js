@@ -118,6 +118,7 @@ router.post('/login', function(req, res, next) {
       user.id = result[0].id;
       user.first_name = result[0].first_name;
       user.last_name = result[0].last_name;
+      user.profile_pic = result[0].profile_pic;
       bcrypt.compare(user.password, result[0].password, function(err, result) {
         if (result === false) {
           res.status(401).send({message:'Incorrect email or password'});
@@ -126,7 +127,8 @@ router.post('/login', function(req, res, next) {
           var profile = {
             id: user.id,
             first_name: user.first_name,
-            last_name: user.last_name
+            last_name: user.last_name,
+            profile_pic: user.profile_pic
           };
           console.log(profile);
           var token = jwt.sign(profile, process.env.SECRET);
