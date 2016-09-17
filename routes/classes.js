@@ -32,7 +32,7 @@ router.get('/:id', function(req, res, next) {
 
 //add class
 router.post('/', function(req, res, next) {
-  console.log(req.body.address);
+  console.log(req.body.user_id);
   var newClass = {
     title: req.body.title,
     image_url: req.body.image_url,
@@ -50,7 +50,7 @@ router.post('/', function(req, res, next) {
     end_time: req.body.end_time,
     total_seats: req.body.total_seats,
     seats_remaining: req.body.total_seats,
-    //user_id: 6,
+    user_id: req.body.user_id,
     creation_date: new Date()
   };
   return knex('classes')
