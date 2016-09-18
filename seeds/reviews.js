@@ -38,7 +38,7 @@ exports.seed = function(knex, Promise) {
           creation_date: new Date()
         }),
 
-        knex.raw('ALTER SEQUENCE rosters_id_seq RESTART WITH 5')
+        knex.raw('ALTER SEQUENCE reviews_id_seq RESTART WITH 5')
       ]);
     });
 };

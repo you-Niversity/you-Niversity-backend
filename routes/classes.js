@@ -30,6 +30,38 @@ router.get('/:id', function(req, res, next) {
     });
 });
 
+//get class comments
+router.get('/:id/comments', function(req, res, next) {
+  return knex('comments')
+    .join('classes', {'classes.id' : 'comments.class_id'})
+    .join('users', {'users.id': 'comments.commenter_id'})
+    .select('comments.id AS id', 'comments.creation_date AS date', 'commenter_id', 'comment', 'first_name', 'last_name', 'profile_pic')
+    .where({'classes.id' : req.params.id})
+    .then(function(data){
+      res.send(data);
+    })
+    .catch(function(err){
+      console.log(err);
+    });
+});
+
+router.post('/:id/comments', function(req, res, next){
+  var comment = {
+    class_id: req.params.id,
+    commenter_id: 1,
+    comment: req.body.comment,
+    creation_date: new Date()
+  };
+  return knex('comments')
+    .insert(comment)
+    .then(function(data){
+      res.send(data);
+    })
+    .catch(function(err){
+      console.log(err);
+    });
+});
+
 //add class
 router.post('/', function(req, res, next) {
   console.log(req.body.user_id);

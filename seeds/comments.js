@@ -62,7 +62,7 @@ exports.seed = function(knex, Promise) {
           creation_date: new Date()
         }),
 
-        knex.raw('ALTER SEQUENCE rosters_id_seq RESTART WITH 8')
+        knex.raw('ALTER SEQUENCE comments_id_seq RESTART WITH 8')
 
       ]);
     });

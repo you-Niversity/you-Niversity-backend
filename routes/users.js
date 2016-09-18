@@ -61,6 +61,38 @@ router.get('/:id/taking', function(req, res, next) {
     });
 });
 
+//get user reviews
+router.get('/:id/reviews', function(req, res, next) {
+  return knex('reviews')
+    .join('users', {'reviews.reviewer_id': 'users.id'})
+    .select('reviews.id AS id', 'reviews.reviewer_id AS reviewer_id', 'first_name', 'last_name', 'profile_pic', 'review', 'creation_date')
+
+    .where({'reviews.teacher_id': req.params.id})
+    .then(function(data){
+      res.send(data);
+    })
+    .catch(function(err){
+      console.log(err);
+    });
+});
+
+router.post('/:id/reviews', function(req, res, next) {
+  var review = {
+    teacher_id: req.params.id,
+    reviewer_id: 1,
+    review: req.body.review,
+    creation_date: new Date()
+  };
+  return knex('reviews')
+    .insert(review)
+    .then(function(data){
+      res.send(data);
+    })
+    .catch(function(err){
+      console.log(err);
+    });
+});
+
 //edit user
 router.put('/:id', function(req, res, next) {
   //TODO knex update user
