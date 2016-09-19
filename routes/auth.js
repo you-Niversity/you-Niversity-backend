@@ -6,6 +6,7 @@ var knex = require('../db/knex');
 var bcrypt = require('bcrypt');
 var expressJwt = require('express-jwt');
 var jwt = require('jsonwebtoken');
+var Gmailer = require("gmail-sender");
 
 //function checks to see if user already exists in db
 function userExistsInDB(email) {
@@ -34,6 +35,15 @@ function checkPassword(req, info) {
   // }
 }
 
+
+
+Gmailer.options({
+	smtp: {
+		service: "Gmail",
+		user: "you.niversity.education@gmail.com",
+		pass: process.env.MAIL_PASS
+	}
+});
 
 router.post('/signup', function(req, res, next){
 
@@ -87,6 +97,17 @@ router.post('/signup', function(req, res, next){
               console.log(token);
               // res.status(200).json({ token:token });
               res.send(profile);
+
+              Gmailer.send({
+              	subject: "Account Creation Confirmed",
+              	text: "Thanks for signing up!",
+              	from: "youNiversity",
+              	to: {
+                  	email: req.body.email,
+                  	name: req.body.first_name,
+                  	surname: req.body.last_name
+              	}
+              });
             })
 
             .catch(function(err){
