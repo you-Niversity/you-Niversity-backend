@@ -3,6 +3,15 @@
 var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
+var Gmailer = require("gmail-sender");
+
+Gmailer.options({
+	smtp: {
+		service: "Gmail",
+		user: "you.niversity.education@gmail.com",
+		pass: process.env.MAIL_PASS
+	}
+});
 
 
 //grabs roster for specific class, joins with user info
@@ -27,8 +36,28 @@ router.post('/:id', function(req, res, next){
   }
   return knex('rosters')
     .insert(roster)
-    .then(function(data){
-      res.send(data);
+    .returning('user_id')
+    .then(function(id){
+      return knex('users')
+        .select('email', 'first_name', 'last_name')
+        .where({'users.id': JSON.parse(id)})
+        .then(function(data){
+          res.send(data[0]);
+          var user = data[0];
+          Gmailer.send({
+            subject: "Thanks for signing up for this class!",
+            text: "*********CHANGE*******",
+            from: "youNiversity",
+            to: {
+                email: user.email,
+                name: user.first_name,
+                surname: user.last_name
+            }
+          });
+        })
+        .catch(function(err){
+          console.log(err);
+        });
     })
     .catch(function(err){
       console.log(err);

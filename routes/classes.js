@@ -3,6 +3,15 @@
 var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
+var Gmailer = require("gmail-sender");
+
+Gmailer.options({
+	smtp: {
+		service: "Gmail",
+		user: "you.niversity.education@gmail.com",
+		pass: process.env.MAIL_PASS
+	}
+});
 
 //get all classes
 router.get('/', function(req, res, next) {
@@ -31,7 +40,7 @@ router.get('/:id', function(req, res, next) {
 });
 
 //update class
-router.put('/:id', function(req, res, next){
+router.put('/:id/signup', function(req, res, next){
   return knex('classes')
   .where({'classes.id': req.params.id})
   .update('seats_remaining', req.body.seats_remaining)
@@ -110,7 +119,56 @@ router.post('/', function(req, res, next) {
 
 //edit class
 router.put('/:id', function(req, res, next) {
-  //TODO knex update class
+  var id = req.params.id;
+  var courseTitle = req.body.title;
+  return knex('classes')
+    .where({'classes.id': req.params.id})
+    .update({
+      title: req.body.title,
+      image_url: req.body.image_url,
+      date: req.body.date,
+      lat: req.body.lat,
+      lng: req.body.lng,
+      address: req.body.address,
+      city: req.body.city,
+      state: req.body.state,
+      zip_code: req.body.zip_code,
+      price: req.body.price,
+      description: req.body.description,
+      prerequisites: req.body.prerequisites,
+      start_time: req.body.start_time,
+      end_time: req.body.end_time,
+      total_seats: req.body.total_seats,
+      seats_remaining: req.body.total_seats,
+      user_id: req.body.user_id,
+    })
+    .then(function(){
+      console.log(id);
+      return knex('rosters')
+        .join('users', {'users.id': 'rosters.user_id'})
+        .select('users.id AS id', 'first_name', 'last_name', 'email')
+        .where({'class_id': id})
+        .then(function(data){
+          var roster = data;
+          roster.forEach(function(element){
+            console.log(element.email);
+            Gmailer.send({
+              subject: "The course " + courseTitle + " has been updated",
+              text: "*********CHANGE*******",
+              from: "youNiversity",
+              to: {
+                  email: element.email,
+                  name: element.first_name,
+                  surname: element.last_name
+              }
+            });
+          });
+          res.send(data);
+        });
+    })
+    .catch(function(err){
+      console.log(err);
+    });
 });
 
 //delete class

@@ -100,7 +100,7 @@ router.post('/signup', function(req, res, next){
 
               Gmailer.send({
               	subject: "Account Creation Confirmed",
-              	text: "Thanks for signing up!",
+              	text: "*********CHANGE*******",
               	from: "youNiversity",
               	to: {
                   	email: req.body.email,
