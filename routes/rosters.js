@@ -20,4 +20,19 @@ router.get('/:id', function(req, res, next){
     });
 });
 
+router.post('/:id', function(req, res, next){
+  var roster = {
+    user_id: req.body.user_id,
+    class_id: req.params.id
+  }
+  return knex('rosters')
+    .insert(roster)
+    .then(function(data){
+      res.send(data);
+    })
+    .catch(function(err){
+      console.log(err);
+    });
+});
+
 module.exports = router;

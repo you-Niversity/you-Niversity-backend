@@ -30,6 +30,19 @@ router.get('/:id', function(req, res, next) {
     });
 });
 
+//update class
+router.put('/:id', function(req, res, next){
+  return knex('classes')
+  .where({'classes.id': req.params.id})
+  .update('seats_remaining', req.body.seats_remaining)
+  .then(function(data){
+    res.sendStatus(200);
+  })
+  .catch(function(err){
+    console.log(err);
+  });
+});
+
 //get class comments
 router.get('/:id/comments', function(req, res, next) {
   return knex('comments')
