@@ -36,10 +36,10 @@ function checkPassword(req, info) {
 }
 
 
-
 Gmailer.options({
 	smtp: {
 		service: "Gmail",
+    text: "You have successfully created an account!",
 		user: "you.niversity.education@gmail.com",
 		pass: process.env.MAIL_PASS
 	}
@@ -96,11 +96,9 @@ router.post('/signup', function(req, res, next){
               var token = jwt.sign(profile, process.env.SECRET);
               console.log(token);
               // res.status(200).json({ token:token });
-              res.send(profile);
 
               Gmailer.send({
               	subject: "Account Creation Confirmed",
-              	text: "*********CHANGE*******",
               	from: "youNiversity",
               	to: {
                   	email: req.body.email,
@@ -108,6 +106,8 @@ router.post('/signup', function(req, res, next){
                   	surname: req.body.last_name
               	}
               });
+              res.send(profile);
+
             })
 
             .catch(function(err){

@@ -29,7 +29,7 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
   return knex('classes')
     .join('users', {'users.id' : 'classes.user_id'})
-    .select('*')
+    .select('*', 'classes.id AS id', 'users.id AS user_id')
     .where({'classes.id' : req.params.id})
     .then(function(data){
       res.send(data);
@@ -154,7 +154,6 @@ router.put('/:id', function(req, res, next) {
             console.log(element.email);
             Gmailer.send({
               subject: "The course " + courseTitle + " has been updated",
-              text: "*********CHANGE*******",
               from: "youNiversity",
               to: {
                   email: element.email,
@@ -173,8 +172,9 @@ router.put('/:id', function(req, res, next) {
 
 //delete class
 router.delete('/:id', function(req, res, next) {
-  knex('classes').delete().where({id: req.params.id}).then(function() {
+  knex('classes').delete().where({id: req.params.id}).then(function(response) {
     console.log('class deleted');
+    res.json(response);
   }).catch(function(err) {
     console.log(err);
   });
