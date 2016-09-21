@@ -88,11 +88,12 @@ router.post('/:id/comments', function(req, res, next){
 
 //add class
 router.post('/', function(req, res, next) {
-  console.log(req.body.user_id);
+
   var newClass = {
     title: req.body.title,
     image_url: req.body.image_url,
     date: req.body.date,
+		unix_timestamp: req.body.unix_timestamp,
     lat: req.body.lat,
     lng: req.body.lng,
     address: req.body.address,
