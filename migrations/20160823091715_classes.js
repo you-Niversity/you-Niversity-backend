@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
     table.string('title');
     table.text('image_url');
     table.string('date');
+    table.bigInteger('unix_timestamp');
     table.decimal('lat', 9, 6);
     table.decimal('lng', 9, 6);
     table.string('address');
