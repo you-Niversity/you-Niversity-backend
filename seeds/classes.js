@@ -226,7 +226,51 @@ exports.seed = function(knex, Promise) {
           creation_date: new Date()
         }),
 
-        knex.raw('ALTER SEQUENCE classes_id_seq RESTART WITH 11')
+        knex('classes').insert({
+          id: 11,
+          title: 'Intro to Javascript',
+          image_url: 'https://hd.unsplash.com/photo-1454165205744-3b78555e5572',
+          date: 'November 9th, 2016',
+          lat: 40.588476,
+          lng: -105.07421199999999,
+          address: ' 242 Linden St',
+          city: 'Fort Collins',
+          state: 'CO',
+          zip_code: 80524,
+          price: 15,
+          description: 'Are you ready to learn to program? In this course, we will cover basic programming concepts using Javascript, focusing on writing algorithms to solve common programming problems.',
+          prerequisites: 'No prior coding knowledge is required to participate. Please bring a computer with a basic text editor downloaded (I recommend Atom) and a willingness to make mistakes and learn!',
+          start_time: '5:00 p.m.',
+          end_time: '7:30 p.m.',
+          total_seats: 8,
+          seats_remaining: 4,
+          user_id: 5,
+          creation_date: new Date()
+        }),
+
+        knex('classes').insert({
+          id: 12,
+          title: 'Become a Table Tennis Master',
+          image_url: 'http://www.allabouttabletennis.com/images/dhs-table-tennis-table.jpg',
+          date: 'October 3rd, 2016',
+          lat: 40.5316195,
+          lng: -105.07841659999997,
+          address: '4025 S College Ave',
+          city: 'Fort Collins',
+          state: 'CO',
+          zip_code: 80526,
+          price: 20,
+          description: 'Come work on skills like defending killer slams, serving unreturnable serves, placing spin at the right moments, and slamming the shit out of the ball. Taught by a four-time national champion and U.S. National Team member.',
+          prerequisites: 'Intermediate skill recommended to take full advantage of the advanced concepts and skills that will be taught.',
+          start_time: '5:00 p.m.',
+          end_time: '7:30 p.m.',
+          total_seats: 4,
+          seats_remaining: 0,
+          user_id: 8,
+          creation_date: new Date()
+        }),
+
+        knex.raw('ALTER SEQUENCE classes_id_seq RESTART WITH 13')
 
       ]);
     });

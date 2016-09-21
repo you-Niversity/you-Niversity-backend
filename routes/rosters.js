@@ -64,4 +64,14 @@ router.post('/:id', function(req, res, next){
     });
 });
 
+//delete roster field
+router.delete('/:id', function(req, res, next) {
+  knex('rosters').delete().where({user_id: req.body.user_id, class_id: req.params.id}).then(function(response) {
+    console.log('user removed from roster');
+    res.json(response);
+  }).catch(function(err) {
+    console.log(err);
+  });
+});
+
 module.exports = router;

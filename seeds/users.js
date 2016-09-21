@@ -7,11 +7,11 @@ exports.seed = function(knex, Promise) {
 
         knex('users').insert({
           id: 1,
-          first_name: 'Shakira',
-          last_name: 'Foster',
-          email: 'k@g.com',
+          first_name: 'Sen. Clay',
+          last_name: 'Davis',
+          email: 'c@g.com',
           password: '$2a$10$wPP4UswIwvT/wmlRh0CUv.xzYmoqISLAM7jAjteZ873Ku9laaxcZm',
-          profile_pic: 'http://www.billboard.com/files/media/shakira-2013-the-voice-billboard-650x430.jpg',
+          profile_pic: 'http://media.philly.com/images/Sheeeeeeeit.jpg',
           city: 'Loveland',
           state: 'CO',
           is_expert: true,

@@ -20,7 +20,7 @@ exports.seed = function(knex, Promise) {
 
         knex('rosters').insert({
           id: 3,
-          user_id: 9,
+          user_id: 10,
           class_id: 2
         }),
 
@@ -50,7 +50,7 @@ exports.seed = function(knex, Promise) {
 
         knex('rosters').insert({
           id: 8,
-          user_id: 9,
+          user_id: 1,
           class_id: 4
         }),
 
@@ -114,7 +114,55 @@ exports.seed = function(knex, Promise) {
           class_id: 9
         }),
 
-        knex.raw('ALTER SEQUENCE rosters_id_seq RESTART WITH 19')
+        knex('rosters').insert({
+          id: 19,
+          user_id: 1,
+          class_id: 11
+        }),
+
+        knex('rosters').insert({
+          id: 20,
+          user_id: 2,
+          class_id: 11
+        }),
+
+        knex('rosters').insert({
+          id: 21,
+          user_id: 3,
+          class_id: 11
+        }),
+
+        knex('rosters').insert({
+          id: 22,
+          user_id: 4,
+          class_id: 11
+        }),
+
+        knex('rosters').insert({
+          id: 23,
+          user_id: 10,
+          class_id: 12
+        }),
+
+        knex('rosters').insert({
+          id: 24,
+          user_id: 7,
+          class_id: 12
+        }),
+
+        knex('rosters').insert({
+          id: 25,
+          user_id: 6,
+          class_id: 12
+        }),
+
+        knex('rosters').insert({
+          id: 26,
+          user_id: 3,
+          class_id: 12
+        }),
+
+        knex.raw('ALTER SEQUENCE rosters_id_seq RESTART WITH 27')
 
 
       ]);
