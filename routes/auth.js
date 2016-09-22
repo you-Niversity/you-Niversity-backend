@@ -6,7 +6,54 @@ var knex = require('../db/knex');
 var bcrypt = require('bcrypt');
 var expressJwt = require('express-jwt');
 var jwt = require('jsonwebtoken');
-var Gmailer = require("gmail-sender");
+
+//// START ELASTIC EMAIL /////
+var querystring = require('querystring');
+var https = require('https');
+
+function sendElasticEmail(to) {
+	// Make sure to add your username and api_key below.
+	var post_data = querystring.stringify({
+		'username' : 'kristenlfoster@gmail.com',
+		'api_key': process.env.ELASTIC_EMAIL,
+		'from': 'you.niversity.education@gmail.com',
+		'from_name' : 'youNiversity',
+		'to' : to,
+		'subject' : 'Account Confirmation',
+		'template' : 'accountconfirm'
+	});
+
+	// Object of options.
+	var post_options = {
+		host: 'api.elasticemail.com',
+		path: '/mailer/send',
+		port: '443',
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Content-Length': post_data.length
+		}
+	};
+	var result = '';
+	// Create the request object.
+	var post_req = https.request(post_options, function(res) {
+		res.setEncoding('utf8');
+		res.on('data', function (chunk) {
+			result = chunk;
+		});
+		res.on('error', function (e) {
+			result = 'Error: ' + e.message;
+      console.log('there was an error on elastic email side');
+		});
+	});
+
+	// Post to Elastic Email
+	post_req.write(post_data);
+	post_req.end();
+	return result;
+}
+
+//// END ELASTIC EMAIL /////
 
 //function checks to see if user already exists in db
 function userExistsInDB(email) {
@@ -23,27 +70,7 @@ function checkPassword(req, info) {
     info.passwordError = true;
     info.error.password.push({message: "Password should be 8 or more characters."});
   }
-  // var regex = /\d/g;
-  // if (!req.body.password.match(regex)) {
-  //   info.passwordError = true;
-  //   info.error.password.push({message: "Password must contain at least one number."});
-  // }
-  // var regex = /\W/g;
-  // if (!req.body.password.match(regex)) {
-  //   info.passwordError = true;
-  //   info.error.password.push({message: "Password must contain at least one special character."});
-  // }
 }
-
-
-Gmailer.options({
-	smtp: {
-		service: "Gmail",
-    text: "You have successfully created an account!",
-		user: "you.niversity.education@gmail.com",
-		pass: process.env.MAIL_PASS
-	}
-});
 
 router.post('/signup', function(req, res, next){
 
@@ -95,17 +122,8 @@ router.post('/signup', function(req, res, next){
               };
               var token = jwt.sign(profile, process.env.SECRET);
               console.log(token);
-              // res.status(200).json({ token:token });
 
-              Gmailer.send({
-              	subject: "Account Creation Confirmed",
-              	from: "youNiversity",
-              	to: {
-                  	email: req.body.email,
-                  	name: req.body.first_name,
-                  	surname: req.body.last_name
-              	}
-              });
+              sendElasticEmail(req.body.email);
               res.send(profile);
 
             })
