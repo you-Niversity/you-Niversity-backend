@@ -9,7 +9,7 @@ var Gmailer = require("gmail-sender");
 var querystring = require('querystring');
 var https = require('https');
 
-function sendElasticEmail(to, subject) {
+function sendElasticEmail(to, courseTitle) {
 	// Make sure to add your username and api_key below.
 	var post_data = querystring.stringify({
 		'username' : 'kristenlfoster@gmail.com',
@@ -17,8 +17,8 @@ function sendElasticEmail(to, subject) {
 		'from': 'you.niversity.education@gmail.com',
 		'from_name' : 'youNiversity',
 		'to' : to,
-		'subject' : subject,
-		'template' : 'classconfirm'
+		'subject' : "The course " + courseTitle + " has been updated",
+		'template' : 'classupdated'
 	});
 
 	// Object of options.
@@ -194,18 +194,7 @@ router.put('/:id', function(req, res, next) {
         .then(function(data){
           var roster = data;
           roster.forEach(function(element){
-            console.log(element.email);
-            Gmailer.send({
-              subject: "The course " + courseTitle + " has been updated",
-              from: "youNiversity",
-              to: {
-                  email: element.email,
-                  name: element.first_name,
-                  surname: element.last_name
-              }
-            });
-						sendElasticEmail(req.body.email);
-
+						sendElasticEmail(element.email, courseTitle);
           });
           res.send(data);
         });
