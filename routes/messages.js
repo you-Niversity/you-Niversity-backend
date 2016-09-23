@@ -14,7 +14,7 @@ router.get('/:id/', function(req, res, next) {
     .join('classes', {'message_threads.class_id' : 'classes.id'})
     // .join('messages', {'messages.thread_id' : 'message_threads.id'})
 
-    .select("message_threads.id AS id", "sender.id AS sender_id", "sender.first_name AS sender_first_name", "sender.last_name AS sender_last_name", "recipient.id AS recipient_id", 'recipient.first_name AS recipient_first_name',  'recipient.last_name AS recipient_last_name', 'title', 'unread_messages')
+    .select("message_threads.id AS thread_id", "sender.id AS sender_id", "sender.first_name AS sender_first_name", "sender.last_name AS sender_last_name", "recipient.id AS recipient_id", 'recipient.first_name AS recipient_first_name',  'recipient.last_name AS recipient_last_name', 'title', 'unread_messages')
 
     .where({'message_threads.sender_id' : req.params.id})
     .orWhere({'message_threads.recipient_id' : req.params.id})
@@ -41,7 +41,7 @@ router.get('/thread/:id', function(req, res, next) {
 
     .select('message', 'creation_date', 'read')
 
-    .orderBy('creation_date')
+    .orderBy('creation_date', 'desc')
 
     .then(function(data){
       res.send(data);
