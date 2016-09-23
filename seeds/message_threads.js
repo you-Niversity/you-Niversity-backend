@@ -8,13 +8,17 @@ exports.seed = function(knex, Promise) {
         knex('message_threads').insert({
           id: 1,
           sender_id: 1,
-          recipient_id: 9
+          recipient_id: 9,
+          class_id: 9,
+          unread_messages: true
         }),
 
         knex('message_threads').insert({
           id: 2,
           sender_id: 5,
-          recipient_id: 9
+          recipient_id: 9,
+          class_id: 9,
+          unread_messages: true
         }),
 
         knex.raw('ALTER SEQUENCE rosters_id_seq RESTART WITH 3')

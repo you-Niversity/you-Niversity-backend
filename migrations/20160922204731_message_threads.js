@@ -5,6 +5,8 @@ exports.up = function(knex, Promise) {
     table.increments('id');
     table.integer('sender_id');
     table.integer('recipient_id');
+    table.integer('class_id');
+    table.boolean('unread_messages');
   });
 };
 

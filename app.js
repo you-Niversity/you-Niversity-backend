@@ -13,6 +13,7 @@ var users = require('./routes/users');
 var classes = require('./routes/classes');
 var auth = require('./routes/auth');
 var rosters = require('./routes/rosters');
+var messages = require('./routes/messages');
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.use('/users', users);
 app.use('/classes', classes);
 app.use('/auth', auth);
 app.use('/rosters', rosters);
+app.use('/messages', messages);
 
 app.get('/favicon.ico', function(req, res) {
     res.send(200);
