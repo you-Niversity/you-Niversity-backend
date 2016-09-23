@@ -4,6 +4,7 @@ var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
 
+
 //get all users
 router.get('/', function(req, res, next){
   return knex ('users')

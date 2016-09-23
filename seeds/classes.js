@@ -116,7 +116,7 @@ exports.seed = function(knex, Promise) {
           start_time: '7:00 a.m.',
           end_time: '8:30 a.m.',
           total_seats: 6,
-          seats_remaining: 1,
+          seats_remaining: 3,
           user_id: 5,
           creation_date: new Date()
         }),
