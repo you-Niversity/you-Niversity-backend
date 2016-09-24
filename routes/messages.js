@@ -5,6 +5,24 @@ var router = express.Router();
 var knex = require('../db/knex');
 
 
+//check if thread exists between two users
+router.get('/threadcheck/:sender_id/:teacher_id', function(req, res, next){
+  return knex('message_threads')
+    .select('*')
+
+    .where({'message_threads.sender_id' : req.params.sender_id, 'message_threads.recipient_id': req.params.teacher_id})
+    .orWhere({'message_threads.recipient_id' : req.params.sender_id, 'message_threads.sender_id': req.params.teacher_id})
+
+    .then(function(data){
+      //true if thread exists, false if it doesn't
+      var exists = data.length > 0;
+      res.send({data: data, exists: exists});
+    })
+    .catch(function(err){
+      console.log(err);
+    });
+});
+
 //get all of one user's threads
 router.get('/:id/', function(req, res, next) {
   return knex('message_threads')
@@ -49,6 +67,24 @@ router.get('/thread/:id', function(req, res, next) {
     });
 });
 
+//create a thread_id
+router.post('/threads', function(req, res, next){
+  var thread = {
+    sender_id: req.body.sender_id,
+    recipient_id: req.body.recipient_id,
+    class_id: req.body.class_id,
+    unread_messages: true
+  }
+  return knex('message_threads')
+    .insert(thread)
+    .returning('id')
+    .then(function(id){
+      res.send(id);
+    })
+    .catch(function(err){
+      console.log(err);
+    });
+});
 
 //create a message--id below will be sender id
 router.post('/:id', function(req, res, next){
