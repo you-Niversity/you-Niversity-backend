@@ -1,14 +1,14 @@
 'use strict';
 
-// var pg = require('pg');
-// pg.defaults.ssl = true;
+var pg = require('pg');
+pg.defaults.ssl = true;
 
 module.exports = {
 
   development: {
     client: 'pg',
     connection:
-    // process.env.DATABASE_URL ||
+    process.env.DATABASE_URL ||
     'postgres://localhost/youniversity'
   },
 
