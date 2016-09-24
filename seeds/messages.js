@@ -50,6 +50,39 @@ exports.seed = function(knex, Promise) {
           read: false
         }),
 
+        knex('messages').insert({
+          id: 5,
+          thread_id: 2,
+          sender_id: 5,
+          recipient_id: 9,
+          class_id: 9,
+          message: 'Bacon ipsum dolor amet meatloaf flank doner capicola porchetta tenderloin, jerky pork loin. Beef ribs picanha ball tip, pork pork loin drumstick andouille ham hock biltong turducken. ',
+          creation_date: new Date(),
+          read: false
+        }),
+
+        knex('messages').insert({
+          id: 6,
+          thread_id: 3,
+          sender_id: 6,
+          recipient_id: 9,
+          class_id: 9,
+          message: 'Bacon ipsum dolor amet meatloaf flank doner capicola porchetta tenderloin, jerky pork loin. Beef ribs picanha ball tip, pork pork loin drumstick andouille ham hock biltong turducken. ',
+          creation_date: new Date(),
+          read: false
+        }),
+
+        knex('messages').insert({
+          id: 6,
+          thread_id: 4,
+          sender_id: 10,
+          recipient_id: 9,
+          class_id: 9,
+          message: 'Bacon ipsum dolor amet meatloaf flank doner capicola porchetta tenderloin, jerky pork loin. Beef ribs picanha ball tip, pork pork loin drumstick andouille ham hock biltong turducken. ',
+          creation_date: new Date(),
+          read: false
+        }),
+
 
 
         knex.raw('ALTER SEQUENCE rosters_id_seq RESTART WITH 4')

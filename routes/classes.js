@@ -3,7 +3,6 @@
 var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
-var Gmailer = require("gmail-sender");
 
 //// START ELASTIC EMAIL /////
 var querystring = require('querystring');

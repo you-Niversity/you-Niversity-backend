@@ -21,7 +21,23 @@ exports.seed = function(knex, Promise) {
           unread_messages: true
         }),
 
-        knex.raw('ALTER SEQUENCE rosters_id_seq RESTART WITH 3')
+        knex('message_threads').insert({
+          id: 3,
+          sender_id: 6,
+          recipient_id: 9,
+          class_id: 9,
+          unread_messages: true
+        }),
+
+        knex('message_threads').insert({
+          id: 4,
+          sender_id: 10,
+          recipient_id: 9,
+          class_id: 9,
+          unread_messages: true
+        }),
+
+        knex.raw('ALTER SEQUENCE rosters_id_seq RESTART WITH 5')
 
 
       ]);

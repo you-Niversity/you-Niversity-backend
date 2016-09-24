@@ -38,9 +38,7 @@ router.get('/thread/:id', function(req, res, next) {
     // .join('users', {'message_threads.recipient_id' : 'users.id'})
     // .select('*', 'messages.id AS id', 'message_threads.id AS thread_id')
     .where({'message_threads.id' : req.params.id})
-
     .select('message', 'creation_date', 'read')
-
     .orderBy('creation_date', 'desc')
 
     .then(function(data){
@@ -52,11 +50,12 @@ router.get('/thread/:id', function(req, res, next) {
 });
 
 
-//get one message
 //create a message
-  //COURSE-ID NEEDS TO BE PASSED INHERE
+  //COURSE-ID NEEDS TO BE PASSED IN HERE
 
 //update a message as read
+
 //delete a message
+
 
 module.exports = router;
