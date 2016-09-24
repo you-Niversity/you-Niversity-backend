@@ -151,8 +151,9 @@ router.post('/', function(req, res, next) {
   };
   return knex('classes')
     .insert(newClass)
-    .then(function(data){
-      res.send(data);
+		.returning('id')
+    .then(function(id){
+      res.send(id);
     })
     .catch(function(err) {
       console.log(err);
