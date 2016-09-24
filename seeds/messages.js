@@ -73,7 +73,7 @@ exports.seed = function(knex, Promise) {
         }),
 
         knex('messages').insert({
-          id: 6,
+          id: 7,
           thread_id: 4,
           sender_id: 10,
           recipient_id: 9,
@@ -85,7 +85,7 @@ exports.seed = function(knex, Promise) {
 
 
 
-        knex.raw('ALTER SEQUENCE rosters_id_seq RESTART WITH 4')
+        knex.raw('ALTER SEQUENCE rosters_id_seq RESTART WITH 8')
 
       ]);
     });
