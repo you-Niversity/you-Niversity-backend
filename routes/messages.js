@@ -38,7 +38,7 @@ router.get('/thread/:id', function(req, res, next) {
     .join('users AS recipient', {'messages.recipient_id' : 'recipient.id'})
     // .select('*', 'messages.id AS id', 'message_threads.id AS thread_id')
     .where({'message_threads.id' : req.params.id})
-    .select('message', 'creation_date', 'read', 'sender.profile_pic AS sender_profile_pic', 'sender.first_name AS sender_first_name')
+    .select('message_threads.id AS thread_id', 'message', 'creation_date', 'read', 'sender.id AS sender_id', 'sender.profile_pic AS sender_profile_pic', 'sender.first_name AS sender_first_name')
     .orderBy('creation_date', 'asc')
 
     .then(function(data){
@@ -50,8 +50,25 @@ router.get('/thread/:id', function(req, res, next) {
 });
 
 
-//create a message
-  //COURSE-ID NEEDS TO BE PASSED IN HERE
+//create a message--id below will be sender id
+router.post('/:id', function(req, res, next){
+  var message = {
+    thread_id: req.body.thread_id,
+    sender_id: req.params.id,
+    recipient_id: req.body.recipient_id,
+    message: req.body.message,
+    creation_date: new Date(),
+    read: false
+  }
+  return knex('messages')
+    .insert(message)
+    .then(function(data){
+      res.send(data);
+    })
+    .catch(function(err){
+      console.log(err);
+    });
+});
 
 //update a message as read
 

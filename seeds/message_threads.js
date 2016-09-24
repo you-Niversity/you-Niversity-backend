@@ -37,7 +37,7 @@ exports.seed = function(knex, Promise) {
           unread_messages: true
         }),
 
-        knex.raw('ALTER SEQUENCE rosters_id_seq RESTART WITH 5')
+        knex.raw('ALTER SEQUENCE message_threads_id_seq RESTART WITH 5')
 
 
       ]);
