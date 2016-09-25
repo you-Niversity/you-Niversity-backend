@@ -67,6 +67,24 @@ router.get('/thread/:id', function(req, res, next) {
     });
 });
 
+
+//check if user has unread messages for which they are the recipient
+router.get('/unread/:id', function(req, res, next){
+  return knex('messages')
+    .where({'recipient_id': req.params.id})
+    .andWhere({'read': false})
+    .then(function(data){
+      //true if thread exists, false if it doesn't
+      var unread_messages = data.length > 0;
+      res.send({data:data, unread_messages:unread_messages});
+    })
+    .catch(function(err){
+      console.log(err);
+    });
+});
+
+
+
 //create a thread_id
 router.post('/threads', function(req, res, next){
   var thread = {
