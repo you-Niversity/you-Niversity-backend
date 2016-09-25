@@ -14,8 +14,8 @@ router.get('/', function(req, res, next){
       res.json(data);
     })
     .catch(function(err){
-      console.log(err);
-    });
+  		res.status(500).json({err:err});
+  	});
 });
 
 //get user
@@ -27,8 +27,8 @@ router.get('/:id', function(req, res, next) {
       res.send(data);
     })
     .catch(function(err){
-      console.log(err);
-    });
+  		res.status(500).json({err:err});
+  	});
 });
 
 //get user classes teaching
@@ -43,8 +43,8 @@ router.get('/:id/teaching', function(req, res, next) {
       res.send(data);
     })
     .catch(function(err){
-      console.log(err);
-    });
+  		res.status(500).json({err:err});
+  	});
 });
 
 //get user classes taking
@@ -60,8 +60,8 @@ router.get('/:id/taking', function(req, res, next) {
       res.send(data);
     })
     .catch(function(err){
-      console.log(err);
-    });
+  		res.status(500).json({err:err});
+  	});
 });
 
 //get user reviews
@@ -75,8 +75,8 @@ router.get('/:id/reviews', function(req, res, next) {
       res.send(data);
     })
     .catch(function(err){
-      console.log(err);
-    });
+  		res.status(500).json({err:err});
+  	});
 });
 
 router.post('/:id/reviews', function(req, res, next) {
@@ -92,8 +92,8 @@ router.post('/:id/reviews', function(req, res, next) {
       res.send(data);
     })
     .catch(function(err){
-      console.log(err);
-    });
+  		res.status(500).json({err:err});
+  	});
 });
 
 //edit user
@@ -103,11 +103,15 @@ router.put('/:id', function(req, res, next) {
 
 //delete user
 router.delete('/:id', function(req, res, next) {
-  knex('users').delete().where({id: req.params.id}).then(function() {
+  knex('users')
+  .delete()
+  .where({id: req.params.id})
+  .then(function() {
     console.log('user account deleted');
-  }).catch(function(err) {
-    console.log(err);
-  });
+  })
+  .catch(function(err){
+		res.status(500).json({err:err});
+	});
 });
 
 module.exports = router;

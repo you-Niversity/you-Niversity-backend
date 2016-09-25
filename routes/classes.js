@@ -61,9 +61,9 @@ router.get('/', function(req, res, next) {
     .then(function(data){
       res.send(data);
     })
-    .catch(function(err){
-      console.log(err);
-    });
+		.catch(function(err){
+			res.status(500).json({err:err});
+		});
 });
 
 //get class
@@ -75,9 +75,9 @@ router.get('/:id', function(req, res, next) {
     .then(function(data){
       res.send(data);
     })
-    .catch(function(err){
-      console.log(err);
-    });
+		.catch(function(err){
+			res.status(500).json({err:err});
+		});
 });
 
 //update class
@@ -88,9 +88,9 @@ router.put('/:id/signup', function(req, res, next){
   .then(function(data){
     res.sendStatus(200);
   })
-  .catch(function(err){
-    console.log(err);
-  });
+	.catch(function(err){
+		res.status(500).json({err:err});
+	});
 });
 
 //get class comments
@@ -103,9 +103,9 @@ router.get('/:id/comments', function(req, res, next) {
     .then(function(data){
       res.send(data);
     })
-    .catch(function(err){
-      console.log(err);
-    });
+		.catch(function(err){
+			res.status(500).json({err:err});
+		});
 });
 
 router.post('/:id/comments', function(req, res, next){
@@ -120,9 +120,9 @@ router.post('/:id/comments', function(req, res, next){
     .then(function(data){
       res.send(data);
     })
-    .catch(function(err){
-      console.log(err);
-    });
+		.catch(function(err){
+			res.status(500).json({err:err});
+		});
 });
 
 //add class
@@ -155,9 +155,9 @@ router.post('/', function(req, res, next) {
     .then(function(id){
       res.send(id);
     })
-    .catch(function(err) {
-      console.log(err);
-    });
+		.catch(function(err){
+			res.status(500).json({err:err});
+		});
 });
 
 //edit class
@@ -199,9 +199,9 @@ router.put('/:id', function(req, res, next) {
           res.send(data);
         });
     })
-    .catch(function(err){
-      console.log(err);
-    });
+		.catch(function(err){
+			res.status(500).json({err:err});
+		});
 });
 
 
@@ -261,9 +261,10 @@ router.delete('/:id', function(req, res, next) {
 		//sendElasticEmailDeleteClass(element.email, courseTitle);
 
     res.json(response);
-  }).catch(function(err) {
-    console.log(err);
-  });
+  })
+	.catch(function(err){
+		res.status(500).json({err:err});
+	});
 });
 
 module.exports = router;

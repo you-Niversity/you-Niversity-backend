@@ -19,8 +19,8 @@ router.get('/threadcheck/:sender_id/:teacher_id', function(req, res, next){
       res.send({data: data, exists: exists});
     })
     .catch(function(err){
-      console.log(err);
-    });
+  		res.status(500).json({err:err});
+  	});
 });
 
 //get all of one user's threads
@@ -43,8 +43,8 @@ router.get('/:id/', function(req, res, next) {
       res.send(data);
     })
     .catch(function(err){
-      console.log(err);
-    });
+  		res.status(500).json({err:err});
+  	});
 });
 
 
@@ -63,8 +63,8 @@ router.get('/thread/:id', function(req, res, next) {
       res.send(data);
     })
     .catch(function(err){
-      console.log(err);
-    });
+  		res.status(500).json({err:err});
+  	});
 });
 
 //update the thread as having no unread messages
@@ -100,8 +100,8 @@ router.get('/unread/:id', function(req, res, next){
       res.send({data:data, unread_messages:unread_messages});
     })
     .catch(function(err){
-      console.log(err);
-    });
+  		res.status(500).json({err:err});
+  	});
 });
 
 
@@ -122,8 +122,8 @@ router.post('/threads', function(req, res, next){
       res.send(id);
     })
     .catch(function(err){
-      console.log(err);
-    });
+  		res.status(500).json({err:err});
+  	});
 });
 
 //create a message--id below will be sender id
@@ -150,8 +150,8 @@ router.post('/:id', function(req, res, next){
       });
     })
     .catch(function(err){
-      res.status(500).json({err:err});
-    });
+  		res.status(500).json({err:err});
+  	});
 });
 
 //update a message as read
@@ -164,9 +164,10 @@ router.delete('/:id', function(req, res, next) {
 	.where({id: req.params.id})
 	.then(function(response) {
     res.json(response);
-  }).catch(function(err) {
-    console.log(err);
-  });
+  })
+  .catch(function(err){
+		res.status(500).json({err:err});
+	});
 });
 
 
