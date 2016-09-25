@@ -10,7 +10,8 @@ exports.seed = function(knex, Promise) {
           sender_id: 1,
           recipient_id: 9,
           class_id: 9,
-          unread_messages: true
+          unread_messages: true,
+          updated_at: new Date()
         }),
 
         knex('message_threads').insert({
@@ -18,7 +19,8 @@ exports.seed = function(knex, Promise) {
           sender_id: 5,
           recipient_id: 9,
           class_id: 9,
-          unread_messages: true
+          unread_messages: true,
+          updated_at: new Date()
         }),
 
         knex('message_threads').insert({
@@ -26,7 +28,8 @@ exports.seed = function(knex, Promise) {
           sender_id: 6,
           recipient_id: 9,
           class_id: 9,
-          unread_messages: true
+          unread_messages: true,
+          updated_at: new Date()
         }),
 
         knex('message_threads').insert({
@@ -34,7 +37,8 @@ exports.seed = function(knex, Promise) {
           sender_id: 10,
           recipient_id: 9,
           class_id: 9,
-          unread_messages: true
+          unread_messages: true,
+          updated_at: new Date()
         }),
 
         knex.raw('ALTER SEQUENCE message_threads_id_seq RESTART WITH 5')

@@ -7,6 +7,7 @@ exports.up = function(knex, Promise) {
     table.integer('recipient_id');
     table.integer('class_id');
     table.boolean('unread_messages');
+    table.timestamp('updated_at');
   });
 };
 
