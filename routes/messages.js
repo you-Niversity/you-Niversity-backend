@@ -67,6 +67,27 @@ router.get('/thread/:id', function(req, res, next) {
     });
 });
 
+//update the thread as having no unread messages
+router.put('/thread/:id', function(req, res, next){
+  return knex ('message_threads')
+    .where({'message_threads.id': req.params.id})
+    .update('unread_messages', false)
+    .then(function(){
+      return knex ('messages')
+        .where({'messages.thread_id': req.params.id})
+        .update('read', true)
+        .then(function(){
+            res.sendStatus(200);
+          })
+          .catch(function(err){
+            console.log(err);
+          });
+        })
+    .catch(function(err){
+      res.status(500).json({err:err});
+    });
+});
+
 
 //check if user has unread messages for which they are the recipient
 router.get('/unread/:id', function(req, res, next){
