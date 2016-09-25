@@ -37,7 +37,7 @@ router.get('/:id/', function(req, res, next) {
     .where({'message_threads.sender_id' : req.params.id})
     .orWhere({'message_threads.recipient_id' : req.params.id})
 
-    // .orderBy('creation_date')
+    .orderBy('updated_at', 'desc')
 
     .then(function(data){
       res.send(data);
@@ -73,7 +73,8 @@ router.post('/threads', function(req, res, next){
     sender_id: req.body.sender_id,
     recipient_id: req.body.recipient_id,
     class_id: req.body.class_id,
-    unread_messages: true
+    unread_messages: true,
+    updated_at: new Date()
   }
   return knex('message_threads')
     .insert(thread)
@@ -95,20 +96,28 @@ router.post('/:id', function(req, res, next){
     message: req.body.message,
     creation_date: new Date(),
     read: false
-  }
+  };
   return knex('messages')
     .insert(message)
-    .then(function(data){
-      res.send(data);
+    .then(function(){
+      return knex('message_threads')
+      .where({'message_threads.id': message.thread_id})
+      .update('updated_at', new Date())
+      .then(function(){
+        res.sendStatus(200);
+      })
+      .catch(function(err){
+        console.log(err);
+      });
     })
     .catch(function(err){
-      console.log(err);
+      res.status(500).json({err:err});
     });
 });
 
 //update a message as read
 
-//delete a message
+//delete a thread
 
 router.delete('/:id', function(req, res, next) {
   knex('message_threads')
