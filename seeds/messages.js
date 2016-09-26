@@ -23,7 +23,7 @@ exports.seed = function(knex, Promise) {
           recipient_id: 9,
           message: 'I know, man. Going to be super awesome. Just bring yourself and something to take notes with!',
           creation_date: new Date(),
-          read: false
+          read: true
         }),
 
         knex('messages').insert({
@@ -43,7 +43,7 @@ exports.seed = function(knex, Promise) {
           recipient_id: 5,
           message: 'Brisket frankfurter corned beef strip steak boudin salami. Leberkas alcatra short ribs porchetta frankfurter. Bacon ipsum dolor amet meatloaf flank doner capicola porchetta tenderloin, jerky pork loin. Beef ribs picanha ball tip, pork pork loin drumstick andouille ham hock biltong turducken. ',
           creation_date: new Date(),
-          read: false
+          read: true
         }),
 
         knex('messages').insert({
@@ -63,7 +63,7 @@ exports.seed = function(knex, Promise) {
           recipient_id: 9,
           message: 'Bacon ipsum dolor amet meatloaf flank doner capicola porchetta tenderloin, jerky pork loin. Beef ribs picanha ball tip, pork pork loin drumstick andouille ham hock biltong turducken. ',
           creation_date: new Date(),
-          read: false
+          read: true
         }),
 
         knex('messages').insert({
