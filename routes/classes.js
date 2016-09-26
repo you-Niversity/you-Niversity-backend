@@ -3,54 +3,7 @@
 var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
-
-//// START ELASTIC EMAIL /////
-var querystring = require('querystring');
-var https = require('https');
-
-function sendElasticEmail(to, courseTitle) {
-	// Make sure to add your username and api_key below.
-	var post_data = querystring.stringify({
-		'username' : 'kristenlfoster@gmail.com',
-		'api_key': process.env.ELASTIC_EMAIL,
-		'from': 'you.niversity.education@gmail.com',
-		'from_name' : 'youNiversity',
-		'to' : to,
-		'subject' : "The course " + courseTitle + " has been updated",
-		'template' : 'classupdated'
-	});
-
-	// Object of options.
-	var post_options = {
-		host: 'api.elasticemail.com',
-		path: '/mailer/send',
-		port: '443',
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded',
-			'Content-Length': post_data.length
-		}
-	};
-	var result = '';
-	// Create the request object.
-	var post_req = https.request(post_options, function(res) {
-		res.setEncoding('utf8');
-		res.on('data', function (chunk) {
-			result = chunk;
-		});
-		res.on('error', function (e) {
-			result = 'Error: ' + e.message;
-      console.log('there was an error on elastic email side');
-		});
-	});
-
-	// Post to Elastic Email
-	post_req.write(post_data);
-	post_req.end();
-	return result;
-}
-
-//// END ELASTIC EMAIL /////
+var email = require('./email.js');
 
 //get all classes
 router.get('/', function(req, res, next) {
@@ -194,7 +147,8 @@ router.put('/:id', function(req, res, next) {
         .then(function(data){
           var roster = data;
           roster.forEach(function(element){
-						sendElasticEmail(element.email, courseTitle);
+						var subject = "The course " + courseTitle + " has been updated";
+						email.sendElasticEmail(element.email, subject, "classupdated");
           });
           res.send(data);
         });
@@ -204,67 +158,21 @@ router.put('/:id', function(req, res, next) {
 		});
 });
 
-
-//// START ELASTIC EMAIL /////
-
-function sendElasticEmailDeleteClass(to, courseTitle) {
-	// Make sure to add your username and api_key below.
-	var post_data = querystring.stringify({
-		'username' : 'kristenlfoster@gmail.com',
-		'api_key': process.env.ELASTIC_EMAIL,
-		'from': 'you.niversity.education@gmail.com',
-		'from_name' : 'youNiversity',
-		'to' : to,
-		'subject' : "The course " + courseTitle + " has been cancelled by the instructor",
-		'template' : 'classdeleted'
-	});
-
-	// Object of options.
-	var post_options = {
-		host: 'api.elasticemail.com',
-		path: '/mailer/send',
-		port: '443',
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded',
-			'Content-Length': post_data.length
-		}
-	};
-	var result = '';
-	// Create the request object.
-	var post_req = https.request(post_options, function(res) {
-		res.setEncoding('utf8');
-		res.on('data', function (chunk) {
-			result = chunk;
-		});
-		res.on('error', function (e) {
-			result = 'Error: ' + e.message;
-      console.log('there was an error on elastic email side');
-		});
-	});
-
-	// Post to Elastic Email
-	post_req.write(post_data);
-	post_req.end();
-	return result;
-}
-
-//// END ELASTIC EMAIL /////
-
-router.delete('/:id', function(req, res, next) {
-  knex('classes')
-	.delete()
-	.where({id: req.params.id})
-	.then(function(response) {
-		//TODO: join tables to get class title and students
-		//for each student, send email
-		//sendElasticEmailDeleteClass(element.email, courseTitle);
-
-    res.json(response);
-  })
-	.catch(function(err){
-		res.status(500).json({err:err});
-	});
-});
+// router.delete('/:id', function(req, res, next) {
+//   knex('classes')
+// 	.delete()
+// 	.where({id: req.params.id})
+// 	.returning('title')
+// 	.then(function(title) {
+// 		//TODO: join tables to get class title and students
+// 		//for each student, send email
+// 		var subject = "The course " + title + " has been cancelled by the instructor";
+// 		email.sendElasticEmail(element.email, subject, 'classdeleted');
+//     res.json(response);
+//   })
+// 	.catch(function(err){
+// 		res.status(500).json({err:err});
+// 	});
+// });
 
 module.exports = router;

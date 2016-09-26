@@ -3,6 +3,7 @@
 var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
+var email = require('./email.js');
 
 
 //check if thread exists between two users
@@ -126,6 +127,9 @@ router.post('/threads', function(req, res, next){
   	});
 });
 
+
+
+
 //create a message--id below will be sender id
 router.post('/:id', function(req, res, next){
   var message = {
@@ -142,19 +146,30 @@ router.post('/:id', function(req, res, next){
       return knex('message_threads')
       .where({'message_threads.id': message.thread_id})
       .update('updated_at', new Date())
+
       .then(function(){
-        res.sendStatus(200);
+        return knex('users')
+          .where({'users.id': message.recipient_id})
+          .select('email')
+
+          .then(function(data){
+            var recipient = data[0].email;
+            email.sendElasticEmail(recipient, 'You have a new message!', 'MessageAlert');
+            res.sendStatus(200);
+          })
+          .catch(function(err){
+        		res.status(500).json({err:err});
+        	});
+
       })
       .catch(function(err){
-        console.log(err);
-      });
+    		res.status(500).json({err:err});
+    	});
     })
     .catch(function(err){
   		res.status(500).json({err:err});
   	});
 });
-
-//update a message as read
 
 //delete a thread
 

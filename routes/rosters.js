@@ -3,55 +3,7 @@
 var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
-//// START ELASTIC EMAIL /////
-var querystring = require('querystring');
-var https = require('https');
-
-function sendElasticEmail(to, name, classname) {
-	// Make sure to add your username and api_key below.
-	var post_data = querystring.stringify({
-		'username' : 'kristenlfoster@gmail.com',
-		'api_key': process.env.ELASTIC_EMAIL,
-		'from': 'you.niversity.education@gmail.com',
-		'from_name' : 'youNiversity',
-		'to' : to,
-		'subject' : "Thanks for signing up for " + classname + ", " + name + "!",
-		'template' : 'classconfirm'
-	});
-
-	// Object of options.
-	var post_options = {
-		host: 'api.elasticemail.com',
-		path: '/mailer/send',
-		port: '443',
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded',
-			'Content-Length': post_data.length
-		}
-	};
-	var result = '';
-	// Create the request object.
-	var post_req = https.request(post_options, function(res) {
-		console.log('entered the email request body');
-		res.setEncoding('utf8');
-		res.on('data', function (chunk) {
-			result = chunk;
-		});
-		res.on('error', function (e) {
-			result = 'Error: ' + e.message;
-      console.log('there was an error on elastic email side');
-		});
-	});
-
-	// Post to Elastic Email
-	post_req.write(post_data);
-	post_req.end();
-	return result;
-}
-
-//// END ELASTIC EMAIL /////
-
+var email = require('./email.js');
 
 
 //grabs roster for specific class, joins with user info
@@ -84,9 +36,8 @@ router.post('/:id', function(req, res, next){
         .then(function(data){
           res.send(data[0]);
           var user = data[0];
-
-					sendElasticEmail(user.email, user.first_name);
-
+					var subject = "Thanks for signing up, "  + user.first_name + "!";
+					email.sendElasticEmail(user.email, subject, 'classconfirm');
         })
 				.catch(function(err){
 					res.status(500).json({err:err});
