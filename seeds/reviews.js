@@ -24,17 +24,17 @@ exports.seed = function(knex, Promise) {
 
         knex('reviews').insert({
           id: 3,
-          teacher_id: 9,
-          reviewer_id: 4,
-          review: 'Great guy, great classes. Keep up the good work, Omar.',
+          teacher_id: 4,
+          reviewer_id: 10,
+          review: 'Love Rhonda. She is a great source of ultrarunning information.',
           creation_date: new Date()
         }),
 
         knex('reviews').insert({
           id: 4,
-          teacher_id: 9,
+          teacher_id: 4,
           reviewer_id: 5,
-          review: 'I didn\'t really think that this guy lived up to all the hype. A lot of the advice was trite and unrealistic.',
+          review: 'Rhonda is such a great coach and motivator! Take her classes at every opportunity.',
           creation_date: new Date()
         }),
 

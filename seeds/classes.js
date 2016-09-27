@@ -194,7 +194,7 @@ exports.seed = function(knex, Promise) {
 
         knex('classes').insert({
           id: 9,
-          title: 'Ultrarunning 101',
+          title: 'Run Your First 100-miler',
           image_url: 'https://hd.unsplash.com/photo-1456613820599-bfe244172af5',
           date: 'September 30th, 2016',
           unix_timestamp: 1475218800,
@@ -205,13 +205,13 @@ exports.seed = function(knex, Promise) {
           state: 'CO',
           zip_code: 80526,
           price: 10,
-          description: 'Learn the fundamentals of training, fueling, and form in preparation for your first ultramarathon of any distance.',
+          description: 'Learn the fundamentals of training, fueling, and form in preparation for your first ultramarathon of any distance. The class will start with a 10-mile group run along the reservoir ridge, and end with a question and answer session in Rotary Park.',
           prerequisites: 'It is best if you have completed at least a marathon-distance run before beginning to train for an ultramarathon.',
           start_time: '7:00 a.m.',
-          end_time: '8:30 a.m.',
+          end_time: '9:30 a.m.',
           total_seats: 8,
           seats_remaining: 2,
-          user_id: 9,
+          user_id: 4,
           creation_date: new Date()
         }),
 

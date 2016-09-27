@@ -9,9 +9,9 @@ exports.seed = function(knex, Promise) {
         knex('messages').insert({
           id: 1,
           thread_id: 1,
-          sender_id: 9,
-          recipient_id: 1,
-          message: 'Can\'t wait for this class, bro! Are there any materials you suggest that I bring? Brisket frankfurter corned beef strip steak boudin salami. Leberkas alcatra short ribs porchetta frankfurter.',
+          sender_id: 2,
+          recipient_id: 4,
+          message: 'Really excited for this class, Rhonda! Can you suggest some good trail shoes?',
           creation_date: new Date(),
           read: true
         }),
@@ -19,9 +19,9 @@ exports.seed = function(knex, Promise) {
         knex('messages').insert({
           id: 2,
           thread_id: 1,
-          sender_id: 1,
-          recipient_id: 9,
-          message: 'I know, man. Going to be super awesome. Just bring yourself and something to take notes with!',
+          sender_id: 4,
+          recipient_id: 2,
+          message: 'Glad that you are excited! I recommend Mizuno Wave Kayate. Good teeth, and they last relatively longer than other brands.',
           creation_date: new Date(),
           read: true
         }),
@@ -30,30 +30,30 @@ exports.seed = function(knex, Promise) {
           id: 3,
           thread_id: 2,
           sender_id: 5,
-          recipient_id: 9,
-          message: 'Bacon ipsum dolor amet meatloaf flank doner capicola porchetta tenderloin, jerky pork loin. Beef ribs picanha ball tip, pork pork loin drumstick andouille ham hock biltong turducken. ',
+          recipient_id: 4,
+          message: 'Rhonda, is it okay if I skip the run?',
           creation_date: new Date(),
           read: true
         }),
 
         knex('messages').insert({
           id: 4,
-          thread_id: 2,
-          sender_id: 9,
-          recipient_id: 5,
-          message: 'Brisket frankfurter corned beef strip steak boudin salami. Leberkas alcatra short ribs porchetta frankfurter. Bacon ipsum dolor amet meatloaf flank doner capicola porchetta tenderloin, jerky pork loin. Beef ribs picanha ball tip, pork pork loin drumstick andouille ham hock biltong turducken. ',
+          thread_id: 3,
+          sender_id: 6,
+          recipient_id: 9,
+          message: 'Super excited for this class! Should I quit my job now, or after?',
           creation_date: new Date(),
           read: true
         }),
 
         knex('messages').insert({
           id: 5,
-          thread_id: 2,
-          sender_id: 5,
-          recipient_id: 9,
-          message: 'Bacon ipsum dolor amet meatloaf flank doner capicola porchetta tenderloin, jerky pork loin. Beef ribs picanha ball tip, pork pork loin drumstick andouille ham hock biltong turducken. ',
+          thread_id: 3,
+          sender_id: 9,
+          recipient_id: 6,
+          message: 'Beadie, glad you\'re excited! I would not recommend quitting your job just yet. Wait to find out if the self-employed life is for you!',
           creation_date: new Date(),
-          read: false
+          read: true
         }),
 
         knex('messages').insert({
@@ -63,7 +63,7 @@ exports.seed = function(knex, Promise) {
           recipient_id: 9,
           message: 'Bacon ipsum dolor amet meatloaf flank doner capicola porchetta tenderloin, jerky pork loin. Beef ribs picanha ball tip, pork pork loin drumstick andouille ham hock biltong turducken. ',
           creation_date: new Date(),
-          read: true
+          read: false
         }),
 
         knex('messages').insert({
@@ -71,7 +71,7 @@ exports.seed = function(knex, Promise) {
           thread_id: 4,
           sender_id: 10,
           recipient_id: 9,
-          message: 'Bacon ipsum dolor amet meatloaf flank doner capicola porchetta tenderloin, jerky pork loin. Beef ribs picanha ball tip, pork pork loin drumstick andouille ham hock biltong turducken. ',
+          message: 'Should I bring something to take notes with?',
           creation_date: new Date(),
           read: false
         }),

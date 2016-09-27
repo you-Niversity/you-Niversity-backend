@@ -10,7 +10,7 @@ exports.seed = function(knex, Promise) {
           id: 1,
           class_id: 9,
           commenter_id: 2,
-          comment: 'I\'ve always wanted to get into ultrarunning, and have heard that Beadie is a patient and amazing coach. Excited to meet the rest of the class!',
+          comment: 'I\'ve always wanted to get into ultrarunning, and have heard that Rhonda is a patient and amazing coach. Excited to meet the rest of the class!',
           creation_date: new Date()
         }),
 
@@ -25,7 +25,7 @@ exports.seed = function(knex, Promise) {
         knex('comments').insert({
           id: 3,
           class_id: 9,
-          commenter_id: 6,
+          commenter_id: 4,
           comment: 'Snoop, I would suggest wearing trail shoes with good tread, as we will be running down some knarly hills in possibly buddy conditions.',
           creation_date: new Date()
         }),
