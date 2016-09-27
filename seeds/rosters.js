@@ -62,19 +62,19 @@ exports.seed = function(knex, Promise) {
 
         knex('rosters').insert({
           id: 10,
-          user_id: 1,
+          user_id: 2,
           class_id: 5
         }),
 
         knex('rosters').insert({
           id: 11,
-          user_id: 7,
+          user_id: 4,
           class_id: 5
         }),
 
         knex('rosters').insert({
           id: 12,
-          user_id: 3,
+          user_id: 10,
           class_id: 5
         }),
 
