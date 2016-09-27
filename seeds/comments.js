@@ -26,7 +26,7 @@ exports.seed = function(knex, Promise) {
           id: 3,
           class_id: 9,
           commenter_id: 4,
-          comment: 'Snoop, I would suggest wearing trail shoes with good tread, as we will be running down some knarly hills in possibly buddy conditions.',
+          comment: 'Snoop, I would suggest wearing trail shoes with good tread, as we will be running down some knarly hills in possibly muddy conditions.',
           creation_date: new Date()
         }),
 

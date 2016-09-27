@@ -23,9 +23,10 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
   return knex('classes')
     .join('users', {'users.id' : 'classes.user_id'})
-    .select('*', 'classes.id AS id', 'users.id AS user_id')
+    .select('*', 'classes.id AS id', 'users.id AS user_id', 'classes.city AS city')
     .where({'classes.id' : req.params.id})
     .then(function(data){
+      console.log(data);
       res.send(data);
     })
 		.catch(function(err){
