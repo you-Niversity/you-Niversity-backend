@@ -113,7 +113,7 @@ exports.seed = function(knex, Promise) {
           id: 9,
           first_name: 'Omar J.',
           last_name: 'Little',
-          email: 'o@g.com',
+          email: 'omar@g.com',
           password: '$2a$10$wPP4UswIwvT/wmlRh0CUv.xzYmoqISLAM7jAjteZ873Ku9laaxcZm',
           profile_pic: 'http://static.guim.co.uk/sys-images/Arts/Arts_/Pictures/2009/3/18/1237375559629/The-Wires-Omar-Little-pla-001.jpg',
           city: 'Denver',

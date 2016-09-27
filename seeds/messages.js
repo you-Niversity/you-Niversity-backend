@@ -43,31 +43,11 @@ exports.seed = function(knex, Promise) {
           recipient_id: 9,
           message: 'Super excited for this class! Should I quit my job now, or after?',
           creation_date: new Date(),
-          read: true
-        }),
-
-        knex('messages').insert({
-          id: 5,
-          thread_id: 3,
-          sender_id: 9,
-          recipient_id: 6,
-          message: 'Beadie, glad you\'re excited! I would not recommend quitting your job just yet. Wait to find out if the self-employed life is for you!',
-          creation_date: new Date(),
-          read: true
-        }),
-
-        knex('messages').insert({
-          id: 6,
-          thread_id: 3,
-          sender_id: 6,
-          recipient_id: 9,
-          message: 'Bacon ipsum dolor amet meatloaf flank doner capicola porchetta tenderloin, jerky pork loin. Beef ribs picanha ball tip, pork pork loin drumstick andouille ham hock biltong turducken. ',
-          creation_date: new Date(),
           read: false
         }),
 
         knex('messages').insert({
-          id: 7,
+          id: 5,
           thread_id: 4,
           sender_id: 10,
           recipient_id: 9,
@@ -76,7 +56,7 @@ exports.seed = function(knex, Promise) {
           read: false
         }),
 
-        knex.raw('ALTER SEQUENCE messages_id_seq RESTART WITH 8')
+        knex.raw('ALTER SEQUENCE messages_id_seq RESTART WITH 6')
 
       ]);
     });

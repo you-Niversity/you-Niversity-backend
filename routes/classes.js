@@ -159,21 +159,21 @@ router.put('/:id', function(req, res, next) {
 		});
 });
 
-// router.delete('/:id', function(req, res, next) {
-//   knex('classes')
-// 	.delete()
-// 	.where({id: req.params.id})
-// 	.returning('title')
-// 	.then(function(title) {
-// 		//TODO: join tables to get class title and students
-// 		//for each student, send email
-// 		var subject = "The course " + title + " has been cancelled by the instructor";
-// 		email.sendElasticEmail(element.email, subject, 'classdeleted');
-//     res.json(response);
-//   })
-// 	.catch(function(err){
-// 		res.status(500).json({err:err});
-// 	});
-// });
+router.delete('/:id', function(req, res, next) {
+  knex('classes')
+	.delete()
+	.where({id: req.params.id})
+	.returning('title')
+	.then(function(title) {
+		//TODO: join tables to get class title and students
+		//for each student, send email
+		//var subject = "The course " + title + " has been cancelled by the instructor";
+		//email.sendElasticEmail(element.email, subject, 'classdeleted');
+    res.json(title);
+  })
+	.catch(function(err){
+		res.status(500).json({err:err});
+	});
+});
 
 module.exports = router;

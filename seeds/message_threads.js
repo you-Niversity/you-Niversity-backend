@@ -27,7 +27,7 @@ exports.seed = function(knex, Promise) {
           id: 3,
           sender_id: 6,
           recipient_id: 9,
-          class_id: 9,
+          class_id: 5,
           unread_messages: true,
           updated_at: new Date()
         }),
@@ -36,7 +36,7 @@ exports.seed = function(knex, Promise) {
           id: 4,
           sender_id: 10,
           recipient_id: 9,
-          class_id: 9,
+          class_id: 5,
           unread_messages: true,
           updated_at: new Date()
         }),

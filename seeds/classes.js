@@ -198,14 +198,14 @@ exports.seed = function(knex, Promise) {
           image_url: 'https://hd.unsplash.com/photo-1456613820599-bfe244172af5',
           date: 'September 30th, 2016',
           unix_timestamp: 1475218800,
-          lat: 40.525126,
-          lng: -105.06205399999999,
-          address: 'Rotary Park',
-          city: 'Fort Collins',
+          lat: 40.0201222,
+          lng: -105.29777539999998,
+          address: 'Mount Sanitas Trailhead',
+          city: 'Boulder',
           state: 'CO',
-          zip_code: 80526,
+          zip_code: 80304,
           price: 10,
-          description: 'Learn the fundamentals of training, fueling, and form in preparation for your first ultramarathon of any distance. The class will start with a 10-mile group run along the reservoir ridge, and end with a question and answer session in Rotary Park.',
+          description: 'Learn the fundamentals of training, fueling, and form in preparation for your first ultramarathon of any distance. The class will start with a double-ascent of the Mount Sanitas summit, and end with a question and answer session at the picnic area near the parking lot.',
           prerequisites: 'It is best if you have completed at least a marathon-distance run before beginning to train for an ultramarathon.',
           start_time: '7:00 a.m.',
           end_time: '9:30 a.m.',
@@ -284,7 +284,32 @@ exports.seed = function(knex, Promise) {
           creation_date: new Date()
         }),
 
-        knex.raw('ALTER SEQUENCE classes_id_seq RESTART WITH 13')
+
+
+        knex('classes').insert({
+          id: 13,
+          title: 'Advanced Ballroom Dancing',
+          image_url: 'http://chicagocityballroom.com/wp-content/uploads/2013/08/Chicago-City-Ballroom.jpg',
+          date: 'September 29th, 2016',
+          unix_timestamp: 1475132400,
+          lat: 40.0057342,
+          lng: -105.26344710000001,
+          address: '995 Regent Dr',
+          city: 'Boulder',
+          state: 'CO',
+          zip_code: 80302,
+          price: 30,
+          description: 'Come work on the ballroom dances that interest you most. Each student will receive individualized instruction. The instructor\'s particular expertise includes latin ballroom dances like merengue, tango, salsa and bachata.',
+          prerequisites: 'Advanced skill recommended to take full advantage of the advanced concepts and skills that will be taught.',
+          start_time: '5:30 p.m.',
+          end_time: '8:30 p.m.',
+          total_seats: 8,
+          seats_remaining: 6,
+          user_id: 4,
+          creation_date: new Date()
+        }),
+
+        knex.raw('ALTER SEQUENCE classes_id_seq RESTART WITH 14')
 
       ]);
     });
