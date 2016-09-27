@@ -64,7 +64,7 @@ router.get('/:id/comments', function(req, res, next) {
 router.post('/:id/comments', function(req, res, next){
   var comment = {
     class_id: req.params.id,
-    commenter_id: 1,
+    commenter_id: req.body.commenter_id,
     comment: req.body.comment,
     creation_date: new Date()
   };
