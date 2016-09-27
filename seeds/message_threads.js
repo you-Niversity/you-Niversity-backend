@@ -41,7 +41,16 @@ exports.seed = function(knex, Promise) {
           updated_at: new Date()
         }),
 
-        knex.raw('ALTER SEQUENCE message_threads_id_seq RESTART WITH 5')
+        knex('message_threads').insert({
+          id: 5,
+          sender_id: 2,
+          recipient_id: 9,
+          class_id: 5,
+          unread_messages: false,
+          updated_at: new Date()
+        }),
+
+        knex.raw('ALTER SEQUENCE message_threads_id_seq RESTART WITH 6')
 
 
       ]);

@@ -56,7 +56,27 @@ exports.seed = function(knex, Promise) {
           read: false
         }),
 
-        knex.raw('ALTER SEQUENCE messages_id_seq RESTART WITH 6')
+        knex('messages').insert({
+          id: 6,
+          thread_id: 5,
+          sender_id: 2,
+          recipient_id: 9,
+          message: 'Really excited for this class! Is it okay if I show up a few minutes late? I am coming from work.',
+          creation_date: new Date(),
+          read: true
+        }),
+
+        knex('messages').insert({
+          id: 7,
+          thread_id: 5,
+          sender_id: 9,
+          recipient_id: 2,
+          message: 'That is no problem at all!',
+          creation_date: new Date(),
+          read: true
+        }),
+
+        knex.raw('ALTER SEQUENCE messages_id_seq RESTART WITH 8')
 
       ]);
     });
