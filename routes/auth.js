@@ -10,6 +10,7 @@ var email = require('./email.js');
 
 //function checks to see if user already exists in db
 function userExistsInDB(email) {
+  console.log('user exists in database function');
   return knex.select('*').from('users').where({email: email});
 }
 
@@ -24,6 +25,7 @@ function checkPassword(req, info) {
 }
 
 router.post('/signup', function(req, res, next){
+  console.log('entering signup function');
   var info = {
     email: req.body.email,
     passwordError: false,
@@ -37,10 +39,14 @@ router.post('/signup', function(req, res, next){
   userExistsInDB(req.body.email)
     .then(function(result) {
       //Roger suggests IF TIME move below logic to userExistsInDB function, returning promise
+      console.log('made it past user exists in database function');
+
       if (info.passwordError) {
         res.status(401).json(info.error.password);
         return;
       } else if (result.length >=1) {
+        console.log('sorry but that user already exists');
+
         res.status(401).json({message:'Sorry, but that email already exists!'});
         return;
       } else {
