@@ -155,12 +155,11 @@ router.post('/:id', function(req, res, next){
           .then(function(data){
             var recipient = data[0].email;
             email.sendElasticEmail(recipient, 'You have a new message!', 'MessageAlert');
-            res.send(message.message);
+            res.send(data);
           })
           .catch(function(err){
         		res.status(500).json({err:err});
         	});
-
       })
       .catch(function(err){
     		res.status(500).json({err:err});

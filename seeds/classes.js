@@ -221,12 +221,12 @@ exports.seed = function(knex, Promise) {
           image_url: 'https://hd.unsplash.com/photo-1444653614773-995cb1ef9efa',
           date: 'November 1st, 2016',
           unix_timestamp: 1477983600,
-          lat: 40.57845549999999,
-          lng: -105.07812669999998,
-          address: '120 W Laurel St',
-          city: 'Fort Collins',
+          lat: 39.7384326,
+          lng: -104.9875409,
+          address: '10 W 14th Ave',
+          city: 'Denver',
           state: 'CO',
-          zip_code: 80524,
+          zip_code: 80204,
           price: 15,
           description: 'With the proliferation of citizen reporting and easy access to information, it has never seemed more important to critically evaluate our sources of information. Take part in this workshop that explains the ideas of purpose, context, and stakeholders, and how these combine to create carefully crafted messages for the public.',
           prerequisites: 'Come with two things printed: An article that you believe has some bias, as well as four or five reader comments written in response to that article. We will analyze these together.',
@@ -284,8 +284,6 @@ exports.seed = function(knex, Promise) {
           creation_date: new Date()
         }),
 
-
-
         knex('classes').insert({
           id: 13,
           title: 'Advanced Ballroom Dancing',
@@ -309,7 +307,76 @@ exports.seed = function(knex, Promise) {
           creation_date: new Date()
         }),
 
-        knex.raw('ALTER SEQUENCE classes_id_seq RESTART WITH 14')
+        knex('classes').insert({
+          id: 14,
+          title: 'Football Fundamentals and Appreciation',
+          image_url: 'http://i.i.cbsi.com/cnwk.1d/i/tim/2013/02/20/football_620x350.jpg',
+          date: 'October 3rd, 2016',
+          unix_timestamp: 1475478000,
+          lat: 39.736051,
+          lng: -104.96719259999998,
+          address: '1280 Gilpin Street',
+          city: 'Denver',
+          state: 'CO',
+          zip_code: 80218,
+          price: 15,
+          description: 'Take a few hours to learn about the rules, strategies and stories of football while enjoying the Monday night game! Food will be provided; just bring a notebook, something to drink, and wear the jersey of your favorite team!',
+          prerequisites: 'None at all, except for an interest in this violent, violent game.',
+          start_time: '6:00 p.m.',
+          end_time: '9:00 p.m.',
+          total_seats: 6,
+          seats_remaining: 6,
+          user_id: 1,
+          creation_date: new Date()
+        }),
+
+        knex('classes').insert({
+          id: 15,
+          title: 'English Conversation: Intermediate',
+          image_url: 'https://www.english.cam.ac.uk/images/english-video.jpg',
+          date: 'October 8th, 2016',
+          unix_timestamp: 1475910000,
+          lat: 39.7893699,
+          lng: -105.02980339999999,
+          address: '3333 Regis Blvd',
+          city: 'Denver',
+          state: 'CO',
+          zip_code:  80221,
+          price: 20,
+          description: 'If you\'re an intermediate level English-language-learner in Denver and want to practice your conversation skills in a focused and guided environment, please join us.',
+          prerequisites: ' Our conversation will be focused around a TedTalk that I will find and assign based on student interests expressed through the comment board. So, when you sign up, please add a comment or private message me about your interests!',
+          start_time: '9:00 a.m.',
+          end_time: '12:00 p.m.',
+          total_seats: 3,
+          seats_remaining: 3,
+          user_id: 6,
+          creation_date: new Date()
+        }),
+
+        knex('classes').insert({
+          id: 16,
+          title: 'Cheesemaking Essentials',
+          image_url: 'https://www.wisconsincheesemart.com/uploads/dzpro_shop_items/dzpro_shop_item_thumb_image/artisanshippinglogo-jpg.jpg',
+          date: 'October 12th, 2016',
+          unix_timestamp: 1476255600,
+          lat: 39.6402958,
+          lng: -104.79212440000003,
+          address: '4205 S Buckley Rd',
+          city: 'Aurora',
+          state: 'CO',
+          zip_code:  80013,
+          price: 25,
+          description: 'Cheesemaking is an art, and the varieties are endless. In this introductory course, we will explore the best methods and conditions for making three types of cheeses.',
+          prerequisites: 'Please read the pre-study materials, which include a brief history of cheesemaking and introduction to important terminology. These materials are posted on the comment board, which you will have access to upon signing up for the class.',
+          start_time: '6:00 p.m.',
+          end_time: '9:00 p.m.',
+          total_seats: 6,
+          seats_remaining: 6,
+          user_id: 6,
+          creation_date: new Date()
+        }),
+
+        knex.raw('ALTER SEQUENCE classes_id_seq RESTART WITH 17')
 
       ]);
     });

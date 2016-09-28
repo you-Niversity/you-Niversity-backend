@@ -8,9 +8,9 @@ exports.seed = function(knex, Promise) {
         // Inserts seed entries
         knex('comments').insert({
           id: 1,
-          class_id: 9,
+          class_id: 12,
           commenter_id: 2,
-          comment: 'I\'ve always wanted to get into ultrarunning, and have heard that Rhonda is a patient and amazing coach. Excited to meet the rest of the class!',
+          comment: 'I can\'t wait to get better at ping pong! Looking forward to meeting everyone.',
           creation_date: new Date()
         }),
 
