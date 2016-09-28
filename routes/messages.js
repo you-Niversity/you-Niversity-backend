@@ -106,7 +106,6 @@ router.get('/unread/:id', function(req, res, next){
 });
 
 
-
 //create a thread_id
 router.post('/threads', function(req, res, next){
   var thread = {
@@ -126,8 +125,6 @@ router.post('/threads', function(req, res, next){
   		res.status(500).json({err:err});
   	});
 });
-
-
 
 
 //create a message--id below will be sender id

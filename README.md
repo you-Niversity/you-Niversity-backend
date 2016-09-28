@@ -79,3 +79,62 @@ Creates a new comment for a specific class.
 DELETE '/classes/:id'
 ```
 Deletes a specific class.
+
+##Messages
+
+```
+GET '/messages/:id'
+```
+Returns all information about a message thread and the two users involved.
+
+```
+GET '/messages/threadcheck/:sender_id/:teacher_id'
+```
+Returns a boolean indicating whether a message thread already exists between two users
+
+```
+GET '/messages/thread/:id'
+```
+Returns all of the messages in one user's thread.
+
+```
+PUT '/messages/thread/:id'
+```
+Updates the thread as having no unread messages.
+
+```
+GET '/messages/unread/:id'
+```
+Returns a boolean, checking if a user has unread messages for which they are the recipient.
+
+```
+Post '/messages/threads'
+```
+Creates a new message thread between two users, and returns the thread id.
+
+```
+Post '/messages/:id'
+```
+Creates a new message, with parameter id being the sender's id.
+
+```
+DELETE '/messages/:id'
+```
+Deletes a thread.
+
+##Rosters
+
+```
+GET '/roster/:id'
+```
+Returns all information about a message thread and the two users involved.
+
+```
+POST '/roster/:id'
+```
+Inserts a user into a class; parameter id is user's id.
+
+```
+DELETE '/roster/:id'
+```
+Removes a user from a class.
