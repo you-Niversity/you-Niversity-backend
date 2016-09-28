@@ -138,3 +138,40 @@ Inserts a user into a class; parameter id is user's id.
 DELETE '/roster/:id'
 ```
 Removes a user from a class.
+
+##Users
+
+```
+GET '/users'
+```
+Returns all users.
+
+```
+GET '/users/:id'
+```
+Returns all information for a specific user.
+
+```
+GET '/users/:id/teaching'
+```
+Returns all classes that a specific user is teaching.
+
+```
+GET '/users/:id/taking'
+```
+Returns all classes that a specific user is taking.
+
+```
+GET '/users/:id/reviews'
+```
+Returns all instructor reviews for a specific user.
+
+```
+POST '/users/:id/reviews'
+```
+Creates a review for a specific user.
+
+```
+DELETE '/users/:id'
+```
+Deletes a specific user.
