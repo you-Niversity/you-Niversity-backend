@@ -9,12 +9,15 @@ var jwt = require('jsonwebtoken');
 var email = require('./email.js');
 
 //function checks to see if user already exists in db
+/////todo: get user
 function userExistsInDB(email) {
   console.log('user exists in database function');
   return knex.select('*').from('users').where({email: email});
 }
 
 //function validates password
+//todo: minlength test...use multiple contexts
+//generic as possible here...comple error message on client side
 function checkPassword(req, info) {
   info.password = req.body.password;
   info.error.password = [];
