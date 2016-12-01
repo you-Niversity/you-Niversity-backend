@@ -19,15 +19,15 @@ router.get('/', (req, res, next) => {
 });
 
 //get class
-router.get('/:id', function(req, res, next) {
-  return knex('classes')
+router.get('/:id', (req, res, next) => {
+  knex('classes')
     .join('users', {'users.id' : 'classes.user_id'})
     .select('*', 'classes.id AS id', 'users.id AS user_id', 'classes.city AS city')
     .where({'classes.id' : req.params.id})
-    .then(function(data){
+    .then((data) => {
       res.send(data);
     })
-		.catch(function(err){
+		.catch((err) => {
 			res.status(500).json({err:err});
 		});
 });
