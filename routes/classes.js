@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 const knex = require('../db/knex');
-const email = require('./email.js');
+const { sendElasticEmail } = require('./email.js');
 
 //get all classes
 router.get('/', function(req, res, next) {
@@ -148,7 +148,7 @@ router.put('/:id', function(req, res, next) {
           const roster = data;
           roster.forEach(function(element){
 						const subject = "The course " + courseTitle + " has been updated";
-						email.sendElasticEmail(element.email, subject, "classupdated");
+						sendElasticEmail(element.email, subject, "classupdated");
           });
           res.send(data);
         });
@@ -167,7 +167,7 @@ router.delete('/:id', function(req, res, next) {
   		//TODO: join tables to get class title and students
   		//for each student, send email
   		//const subject = "The course " + title + " has been cancelled by the instructor";
-  		//email.sendElasticEmail(element.email, subject, 'classdeleted');
+  		//sendElasticEmail(element.email, subject, 'classdeleted');
       res.json(title);
     })
 	.catch(function(err){
