@@ -33,16 +33,16 @@ router.get('/:id', (req, res, next) => {
 });
 
 //update class
-router.put('/:id/signup', function(req, res, next){
-  return knex('classes')
-  .where({'classes.id': req.params.id})
-  .update('seats_remaining', req.body.seats_remaining)
-  .then(function(data){
-    res.sendStatus(200);
-  })
-	.catch(function(err){
-		res.status(500).json({err:err});
-	});
+router.put('/:id/signup', (req, res, next) => {
+  knex('classes')
+    .where({'classes.id': req.params.id})
+    .update('seats_remaining', req.body.seats_remaining)
+    .then((data) => {
+      res.sendStatus(200);
+    })
+  	.catch((err) => {
+  		res.status(500).json({err:err});
+  	});
 });
 
 //get class comments
