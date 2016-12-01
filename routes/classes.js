@@ -1,15 +1,16 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
-var knex = require('../db/knex');
-var email = require('./email.js');
+const express = require('express');
+const router = express.Router();
+
+const knex = require('../db/knex');
+const email = require('./email.js');
 
 //get all classes
 router.get('/', function(req, res, next) {
   return knex ('classes')
     .select('*')
-		.where('unix_timestamp', '>', Number((Date.now()).toString().slice(0,10)))
+		// .where('unix_timestamp', '>', Number((Date.now()).toString().slice(0,10)))
 		.orderBy('unix_timestamp', 'asc')
     .then(function(data){
       res.send(data);
@@ -26,7 +27,6 @@ router.get('/:id', function(req, res, next) {
     .select('*', 'classes.id AS id', 'users.id AS user_id', 'classes.city AS city')
     .where({'classes.id' : req.params.id})
     .then(function(data){
-      console.log(data);
       res.send(data);
     })
 		.catch(function(err){
@@ -63,7 +63,7 @@ router.get('/:id/comments', function(req, res, next) {
 });
 
 router.post('/:id/comments', function(req, res, next){
-  var comment = {
+  const comment = {
     class_id: req.params.id,
     commenter_id: req.body.commenter_id,
     comment: req.body.comment,
@@ -82,7 +82,7 @@ router.post('/:id/comments', function(req, res, next){
 //add class
 router.post('/', function(req, res, next) {
 
-  var newClass = {
+  const newClass = {
     title: req.body.title,
     image_url: req.body.image_url,
     date: req.body.date,
@@ -116,8 +116,8 @@ router.post('/', function(req, res, next) {
 
 //edit class
 router.put('/:id', function(req, res, next) {
-  var id = req.params.id;
-  var courseTitle = req.body.title;
+  const id = req.params.id;
+  const courseTitle = req.body.title;
   return knex('classes')
     .where({'classes.id': req.params.id})
     .update({
@@ -140,15 +140,14 @@ router.put('/:id', function(req, res, next) {
       user_id: req.body.user_id,
     })
     .then(function(){
-      console.log(id);
       return knex('rosters')
         .join('users', {'users.id': 'rosters.user_id'})
         .select('users.id AS id', 'first_name', 'last_name', 'email')
         .where({'class_id': id})
         .then(function(data){
-          var roster = data;
+          const roster = data;
           roster.forEach(function(element){
-						var subject = "The course " + courseTitle + " has been updated";
+						const subject = "The course " + courseTitle + " has been updated";
 						email.sendElasticEmail(element.email, subject, "classupdated");
           });
           res.send(data);
@@ -161,16 +160,16 @@ router.put('/:id', function(req, res, next) {
 
 router.delete('/:id', function(req, res, next) {
   knex('classes')
-	.delete()
-	.where({id: req.params.id})
-	.returning('title')
-	.then(function(title) {
-		//TODO: join tables to get class title and students
-		//for each student, send email
-		//var subject = "The course " + title + " has been cancelled by the instructor";
-		//email.sendElasticEmail(element.email, subject, 'classdeleted');
-    res.json(title);
-  })
+  	.delete()
+  	.where({id: req.params.id})
+  	.returning('title')
+  	.then(function(title) {
+  		//TODO: join tables to get class title and students
+  		//for each student, send email
+  		//const subject = "The course " + title + " has been cancelled by the instructor";
+  		//email.sendElasticEmail(element.email, subject, 'classdeleted');
+      res.json(title);
+    })
 	.catch(function(err){
 		res.status(500).json({err:err});
 	});
