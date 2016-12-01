@@ -46,39 +46,39 @@ router.put('/:id/signup', (req, res, next) => {
 });
 
 //get class comments
-router.get('/:id/comments', function(req, res, next) {
-  return knex('comments')
+router.get('/:id/comments', (req, res, next) => {
+  knex('comments')
     .join('classes', {'classes.id' : 'comments.class_id'})
     .join('users', {'users.id': 'comments.commenter_id'})
     .select('comments.id AS id', 'comments.creation_date AS date', 'commenter_id', 'comment', 'first_name', 'last_name', 'profile_pic')
     .where({'classes.id' : req.params.id})
-    .then(function(data){
+    .then((data) => {
       res.send(data);
     })
-		.catch(function(err){
+		.catch((err) => {
 			res.status(500).json({err:err});
 		});
 });
 
-router.post('/:id/comments', function(req, res, next){
+router.post('/:id/comments', (req, res, next) => {
   const comment = {
     class_id: req.params.id,
     commenter_id: req.body.commenter_id,
     comment: req.body.comment,
     creation_date: new Date()
   };
-  return knex('comments')
+  knex('comments')
     .insert(comment)
-    .then(function(data){
+    .then((data) => {
       res.send(data);
     })
-		.catch(function(err){
+		.catch((err) => {
 			res.status(500).json({err:err});
 		});
 });
 
 //add class
-router.post('/', function(req, res, next) {
+router.post('/', (req, res, next) => {
 
   const newClass = {
     title: req.body.title,
@@ -101,22 +101,22 @@ router.post('/', function(req, res, next) {
     user_id: req.body.user_id,
     creation_date: new Date()
   };
-  return knex('classes')
+  knex('classes')
     .insert(newClass)
 		.returning('id')
-    .then(function(id){
+    .then((id) => {
       res.send(id);
     })
-		.catch(function(err){
+		.catch((err) => {
 			res.status(500).json({err:err});
 		});
 });
 
 //edit class
-router.put('/:id', function(req, res, next) {
+router.put('/:id', (req, res, next) => {
   const id = req.params.id;
   const courseTitle = req.body.title;
-  return knex('classes')
+  knex('classes')
     .where({'classes.id': req.params.id})
     .update({
       title: req.body.title,
@@ -137,38 +137,38 @@ router.put('/:id', function(req, res, next) {
       seats_remaining: req.body.total_seats,
       user_id: req.body.user_id,
     })
-    .then(function(){
+    .then(() => {
       return knex('rosters')
         .join('users', {'users.id': 'rosters.user_id'})
         .select('users.id AS id', 'first_name', 'last_name', 'email')
         .where({'class_id': id})
-        .then(function(data){
+        .then((data) => {
           const roster = data;
-          roster.forEach(function(element){
+          roster.forEach((element) => {
 						const subject = "The course " + courseTitle + " has been updated";
 						sendElasticEmail(element.email, subject, "classupdated");
           });
           res.send(data);
         });
     })
-		.catch(function(err){
+		.catch((err) => {
 			res.status(500).json({err:err});
 		});
 });
 
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', (req, res, next) => {
   knex('classes')
   	.delete()
   	.where({id: req.params.id})
   	.returning('title')
-  	.then(function(title) {
+  	.then((title) => {
   		//TODO: join tables to get class title and students
   		//for each student, send email
   		//const subject = "The course " + title + " has been cancelled by the instructor";
   		//sendElasticEmail(element.email, subject, 'classdeleted');
       res.json(title);
     })
-	.catch(function(err){
+	.catch((err) => {
 		res.status(500).json({err:err});
 	});
 });
