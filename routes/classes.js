@@ -6,16 +6,14 @@ const router = express.Router();
 const knex = require('../db/knex');
 const { sendElasticEmail } = require('./email.js');
 
-//get all classes
-router.get('/', function(req, res, next) {
-  return knex ('classes')
-    .select('*')
-		// .where('unix_timestamp', '>', Number((Date.now()).toString().slice(0,10)))
+router.get('/', (req, res, next) => {
+  knex('classes')
+		.where('unix_timestamp', '>', Number((Date.now()).toString().slice(0,10)))
 		.orderBy('unix_timestamp', 'asc')
-    .then(function(data){
+    .then((data) => {
       res.send(data);
     })
-		.catch(function(err){
+		.catch((err) => {
 			res.status(500).json({err:err});
 		});
 });
