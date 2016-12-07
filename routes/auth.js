@@ -13,24 +13,21 @@ const email = require('./email.js');
 //function checks to see if user already exists in db
 /////todo: get user
 function userExistsInDB(email) {
-  console.log('user exists in database function');
   return knex.select('*').from('users').where({email: email});
 }
 
 //function validates password
 //todo: minlength test...use multiple contexts
 //generic as possible here...comple error message on client side
-function checkPassword(req, info) {
-  console.log('*************');
-  console.log(req.body);
-  console.log('*************');
-
+function validatePassword(req, info) {
   info.password = req.body.password;
   info.error.password = [];
+
   if(req.body.password.length <= 7) {
     info.passwordError = true;
     info.error.password.push({message: "Password should be 8 or more characters."});
   }
+
 }
 ////************ EXPORT THESE TWO FUNCTIONS ************/////////
 
@@ -44,65 +41,61 @@ router.post('/signup', function(req, res, next){
     passwordError: false,
     error: {}
   };
-  console.log("info", info);
 
-  //validate password
-  checkPassword(req, info);
+  validatePassword(req, info);
 
   //check if email exists in db...
-    userExistsInDB(email)
-    .then(function(result) {
+  userExistsInDB(email).then(function(result) {
       //Roger suggests IF TIME move below logic to userExistsInDB function, returning promise
-      console.log('made it past user exists in database function');
 
       if (info.passwordError) {
         res.status(401).json(info.error.password);
         return;
-      } else if (result.length >=1) {
-        console.log('sorry but that user already exists');
+      }
 
+      if (result.length >=1) {
         res.status(401).json({message:'Sorry, but that email already exists!'});
         return;
-      } else {
-        //create the new user
-        //below bcrypt can also be integrated into userExistsInDB function
-        bcrypt.hash(password, 10, function(err, hash) {
-            knex('users').insert({
+      }
+
+      bcrypt.hash(password, 10, function(err, hash) {
+          knex('users').insert({
+            first_name,
+            last_name,
+            email,
+            password: hash,
+            profile_pic,
+            city,
+            state,
+            is_expert,
+            is_admin: false
+          }).returning('id')
+
+          .then(function(id){
+
+            var profile = {
+              id: id[0],
               first_name,
               last_name,
-              email,
-              password: hash,
-              profile_pic,
-              city,
-              state,
-              is_expert,
-              is_admin: false
-            }).returning('id')
+              token: null
+            };
 
-            .then(function(id){
-              var profile = {
-                id: id[0],
-                first_name,
-                last_name
-              };
-              var token = jwt.sign(profile, process.env.SECRET);
-              email.sendElasticEmail(email, 'Account Confirmation', 'accountconfirm');
-              res.send(profile);
-            })
-            .catch(function(err){
-              res.status(500).json({err:err});
-            });
+            profile.token = jwt.sign(profile, process.env.SECRET);
+            email.sendElasticEmail(email, 'Account Confirmation', 'accountconfirm');
+            res.send(profile);
+          })
+          .catch(function(err){
+            res.status(500).json({err:err});
           });
-      }
-    });
+      });
+  });
 });
 
 router.post('/login', function(req, res, next) {
 
   const { email, password } = req.body;
 
-  userExistsInDB(email)
-  .then(function(result){
+  userExistsInDB(email).then(function(result){
     if (result.length === 0) {
       res.status(401).json({message:'Email does not exist.'});
       return;
