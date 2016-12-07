@@ -101,10 +101,8 @@ router.post('/login', function(req, res, next) {
 
   const { email, password } = req.body;
 
-  //check if email exists in db...
   userExistsInDB(email)
   .then(function(result){
-
     if (result.length === 0) {
       res.status(401).json({message:'Email does not exist.'});
       return;
@@ -113,7 +111,6 @@ router.post('/login', function(req, res, next) {
     const {id, first_name, last_name, profile_pic} = result[0];
 
     bcrypt.compare(password, result[0].password, function(err, result) {
-
       if (result === false) {
         res.status(401).send({message:'Incorrect email or password'});
         return;
@@ -128,9 +125,7 @@ router.post('/login', function(req, res, next) {
 
       var token = jwt.sign(profile, process.env.SECRET);
       res.status(200).json({ token:token, profile:profile });
-
     });
-
   })
 	.catch(function(err){
 		res.status(500).json({err:err});
