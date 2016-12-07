@@ -1,13 +1,15 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
-var knex = require('../db/knex');
-var bcrypt = require('bcrypt');
-var expressJwt = require('express-jwt');
-var jwt = require('jsonwebtoken');
-var email = require('./email.js');
+const express = require('express');
+const router = express.Router();
+const knex = require('../db/knex');
+const bcrypt = require('bcrypt');
+const expressJwt = require('express-jwt');
+const jwt = require('jsonwebtoken');
+const email = require('./email.js');
 
+
+////************ EXPORT THESE TWO FUNCTIONS ************/////////
 //function checks to see if user already exists in db
 /////todo: get user
 function userExistsInDB(email) {
@@ -19,6 +21,10 @@ function userExistsInDB(email) {
 //todo: minlength test...use multiple contexts
 //generic as possible here...comple error message on client side
 function checkPassword(req, info) {
+  console.log('*************');
+  console.log(req.body);
+  console.log('*************');
+
   info.password = req.body.password;
   info.error.password = [];
   if(req.body.password.length <= 7) {
@@ -26,20 +32,25 @@ function checkPassword(req, info) {
     info.error.password.push({message: "Password should be 8 or more characters."});
   }
 }
+////************ EXPORT THESE TWO FUNCTIONS ************/////////
+
 
 router.post('/signup', function(req, res, next){
-  console.log('entering signup function');
+
+  const { email, first_name, last_name, password, profile_pic, city, state, is_expert} = req.body;
+
   var info = {
-    email: req.body.email,
+    email,
     passwordError: false,
     error: {}
   };
+  console.log("info", info);
 
   //validate password
   checkPassword(req, info);
 
   //check if email exists in db...
-  userExistsInDB(req.body.email)
+    userExistsInDB(email)
     .then(function(result) {
       //Roger suggests IF TIME move below logic to userExistsInDB function, returning promise
       console.log('made it past user exists in database function');
@@ -55,35 +66,33 @@ router.post('/signup', function(req, res, next){
       } else {
         //create the new user
         //below bcrypt can also be integrated into userExistsInDB function
-        bcrypt.genSalt(10, function(err, salt){
-          bcrypt.hash(req.body.password, salt, function(err, hash) {
+        bcrypt.hash(password, 10, function(err, hash) {
             knex('users').insert({
-              first_name: req.body.first_name,
-              last_name: req.body.last_name,
-              email: req.body.email,
+              first_name,
+              last_name,
+              email,
               password: hash,
-              profile_pic: req.body.profile_pic,
-              city: req.body.city,
-              state: req.body.state,
-              is_expert: req.body.is_expert,
+              profile_pic,
+              city,
+              state,
+              is_expert,
               is_admin: false
             }).returning('id')
 
             .then(function(id){
               var profile = {
                 id: id[0],
-                first_name: req.body.first_name,
-                last_name: req.body.last_name
+                first_name,
+                last_name
               };
               var token = jwt.sign(profile, process.env.SECRET);
-              email.sendElasticEmail(req.body.email, 'Account Confirmation', 'accountconfirm');
+              email.sendElasticEmail(email, 'Account Confirmation', 'accountconfirm');
               res.send(profile);
             })
             .catch(function(err){
               res.status(500).json({err:err});
             });
           });
-        });
       }
     });
 });
