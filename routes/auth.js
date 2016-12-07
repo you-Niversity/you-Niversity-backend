@@ -98,38 +98,39 @@ router.post('/signup', function(req, res, next){
 });
 
 router.post('/login', function(req, res, next) {
-  var user = {
-    email: req.body.email,
-    password: req.body.password
-  };
+
+  const { email, password } = req.body;
+
   //check if email exists in db...
-  userExistsInDB(user.email)
+  userExistsInDB(email)
   .then(function(result){
+
     if (result.length === 0) {
-      //user does not exist in system
       res.status(401).json({message:'Email does not exist.'});
       return;
-    } else {
-      user.id = result[0].id;
-      user.first_name = result[0].first_name;
-      user.last_name = result[0].last_name;
-      user.profile_pic = result[0].profile_pic;
-      bcrypt.compare(user.password, result[0].password, function(err, result) {
-        if (result === false) {
-          res.status(401).send({message:'Incorrect email or password'});
-          return;
-        } else {
-          var profile = {
-            id: user.id,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            profile_pic: user.profile_pic
-          };
-          var token = jwt.sign(profile, process.env.SECRET);
-          res.status(200).json({ token:token, profile:profile });
-        }
-      });
     }
+
+    const {id, first_name, last_name, profile_pic} = result[0];
+
+    bcrypt.compare(password, result[0].password, function(err, result) {
+
+      if (result === false) {
+        res.status(401).send({message:'Incorrect email or password'});
+        return;
+      }
+
+      var profile = {
+        id,
+        first_name,
+        last_name,
+        profile_pic
+      };
+
+      var token = jwt.sign(profile, process.env.SECRET);
+      res.status(200).json({ token:token, profile:profile });
+
+    });
+
   })
 	.catch(function(err){
 		res.status(500).json({err:err});
