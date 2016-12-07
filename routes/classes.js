@@ -8,7 +8,7 @@ const { sendElasticEmail } = require('./email.js');
 
 router.get('/', (req, res, next) => {
   knex('classes')
-		.where('unix_timestamp', '>', Number((Date.now()).toString().slice(0,10)))
+		// .where('unix_timestamp', '>', Number((Date.now()).toString().slice(0,10)))
 		.orderBy('unix_timestamp', 'asc')
     .then((data) => {
       res.send(data);
@@ -20,11 +20,25 @@ router.get('/', (req, res, next) => {
 
 //get class
 router.get('/:id', (req, res, next) => {
+
+  const id = Number.parseInt(req.params.id);
+
+  if (Number.isNaN(id)) {
+    return next();
+  }
+
   knex('classes')
     .join('users', {'users.id' : 'classes.user_id'})
     .select('*', 'classes.id AS id', 'users.id AS user_id', 'classes.city AS city')
-    .where({'classes.id' : req.params.id})
+    .where({'classes.id' : id})
+  //following is going to require changes on front end
+    .first()
     .then((data) => {
+      if (!data) {
+        console.log("we ain't got no data!");
+        res.status(404).json({err:err});
+      }
+
       res.send(data);
     })
 		.catch((err) => {
