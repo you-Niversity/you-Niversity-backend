@@ -4,32 +4,10 @@ const express = require('express');
 const router = express.Router();
 const knex = require('../db/knex');
 const bcrypt = require('bcrypt');
-const expressJwt = require('express-jwt');
 const jwt = require('jsonwebtoken');
-const email = require('./email.js');
 
-
-////************ EXPORT THESE TWO FUNCTIONS ************/////////
-//function checks to see if user already exists in db
-/////todo: get user
-function userExistsInDB(email) {
-  return knex.select('*').from('users').where({email: email});
-}
-
-//function validates password
-//todo: minlength test...use multiple contexts
-//generic as possible here...comple error message on client side
-function validatePassword(req, info) {
-  info.password = req.body.password;
-  info.error.password = [];
-
-  if(req.body.password.length <= 7) {
-    info.passwordError = true;
-    info.error.password.push({message: "Password should be 8 or more characters."});
-  }
-
-}
-////************ EXPORT THESE TWO FUNCTIONS ************/////////
+const { validatePassword, userExistsInDB } = require('../js/validations.js');
+const { sendElasticEmail } = require('./email.js');
 
 
 router.post('/signup', function(req, res, next){
@@ -44,7 +22,6 @@ router.post('/signup', function(req, res, next){
 
   validatePassword(req, info);
 
-  //check if email exists in db...
   userExistsInDB(email).then(function(result) {
       //Roger suggests IF TIME move below logic to userExistsInDB function, returning promise
 
@@ -72,7 +49,7 @@ router.post('/signup', function(req, res, next){
           }).returning('id')
 
           .then(function(id){
-
+            console.log("id:", id);
             var profile = {
               id: id[0],
               first_name,
@@ -81,7 +58,10 @@ router.post('/signup', function(req, res, next){
             };
 
             profile.token = jwt.sign(profile, process.env.SECRET);
-            email.sendElasticEmail(email, 'Account Confirmation', 'accountconfirm');
+
+            console.log("profile:", profile);
+
+            sendElasticEmail(email, 'Account Confirmation', 'accountconfirm');
             res.send(profile);
           })
           .catch(function(err){
