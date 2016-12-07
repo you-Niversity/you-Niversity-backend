@@ -9,7 +9,7 @@ var email = require('./email.js');
 router.get('/', function(req, res, next) {
   return knex ('classes')
     .select('*')
-		.where('unix_timestamp', '>', Number((Date.now()).toString().slice(0,10)))
+		// .where('unix_timestamp', '>', Number((Date.now()).toString().slice(0,10)))
 		.orderBy('unix_timestamp', 'asc')
     .then(function(data){
       res.send(data);
