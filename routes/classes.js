@@ -35,29 +35,16 @@ router.get('/:id', (req, res, next) => {
     .first()
     .then((data) => {
       if (!data) {
-        console.log("we ain't got no data!");
-        res.status(404).json({err:err});
+        res.status(404).json({ err: err });
       }
 
       res.send(data);
     })
 		.catch((err) => {
-			res.status(500).json({err:err});
+			res.status(500).json({ err: err });
 		});
 });
 
-//update class
-router.put('/:id/signup', (req, res, next) => {
-  knex('classes')
-    .where({'classes.id': req.params.id})
-    .update('seats_remaining', req.body.seats_remaining)
-    .then((data) => {
-      res.sendStatus(200);
-    })
-  	.catch((err) => {
-  		res.status(500).json({err:err});
-  	});
-});
 
 //get class comments
 router.get('/:id/comments', (req, res, next) => {
@@ -75,14 +62,17 @@ router.get('/:id/comments', (req, res, next) => {
 });
 
 router.post('/:id/comments', (req, res, next) => {
-  const comment = {
+
+  const { commenter_id, comment } = req.body;
+
+  const newComment = {
     class_id: req.params.id,
-    commenter_id: req.body.commenter_id,
-    comment: req.body.comment,
+    commenter_id,
+    comment,
     creation_date: new Date()
   };
   knex('comments')
-    .insert(comment)
+    .insert(newComment)
     .then((data) => {
       res.send(data);
     })
@@ -92,29 +82,32 @@ router.post('/:id/comments', (req, res, next) => {
 });
 
 //add class
-router.post('/', (req, res, next) => {
+router.post('/', (req, res) => {
+
+  const { title, image_url, date, unix_timestamp, lat, lng, address, city, state, zip_code, price, description, prerequisites, start_time, end_time, total_seats, seats_remaining, user_id} = req.body;
 
   const newClass = {
-    title: req.body.title,
-    image_url: req.body.image_url,
-    date: req.body.date,
-		unix_timestamp: req.body.unix_timestamp,
-    lat: req.body.lat,
-    lng: req.body.lng,
-    address: req.body.address,
-    city: req.body.city,
-    state: req.body.state,
-    zip_code: req.body.zip_code,
-    price: req.body.price,
-    description: req.body.description,
-    prerequisites: req.body.prerequisites,
-    start_time: req.body.start_time,
-    end_time: req.body.end_time,
-    total_seats: req.body.total_seats,
-    seats_remaining: req.body.total_seats,
-    user_id: req.body.user_id,
+    title,
+    image_url,
+    date,
+		unix_timestamp,
+    lat,
+    lng,
+    address,
+    city,
+    state,
+    zip_code,
+    price,
+    description,
+    prerequisites,
+    start_time,
+    end_time,
+    total_seats,
+    seats_remaining,
+    user_id,
     creation_date: new Date()
   };
+
   knex('classes')
     .insert(newClass)
 		.returning('id')
@@ -122,7 +115,7 @@ router.post('/', (req, res, next) => {
       res.send(id);
     })
 		.catch((err) => {
-			res.status(500).json({err:err});
+			res.status(500).json({ err: err });
 		});
 });
 
