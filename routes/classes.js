@@ -121,28 +121,32 @@ router.post('/', (req, res) => {
 
 //edit class
 router.put('/:id', (req, res, next) => {
+
   const id = req.params.id;
-  const courseTitle = req.body.title;
+
+  const { title, image_url, date, unix_timestamp, lat, lng, address, city, state, zip_code, price, description, prerequisites, start_time, end_time, total_seats, seats_remaining, user_id} = req.body;
+
   knex('classes')
     .where({'classes.id': req.params.id})
     .update({
-      title: req.body.title,
-      image_url: req.body.image_url,
-      date: req.body.date,
-      lat: req.body.lat,
-      lng: req.body.lng,
-      address: req.body.address,
-      city: req.body.city,
-      state: req.body.state,
-      zip_code: req.body.zip_code,
-      price: req.body.price,
-      description: req.body.description,
-      prerequisites: req.body.prerequisites,
-      start_time: req.body.start_time,
-      end_time: req.body.end_time,
-      total_seats: req.body.total_seats,
-      seats_remaining: req.body.total_seats,
-      user_id: req.body.user_id,
+      title,
+      image_url,
+      date,
+  		unix_timestamp,
+      lat,
+      lng,
+      address,
+      city,
+      state,
+      zip_code,
+      price,
+      description,
+      prerequisites,
+      start_time,
+      end_time,
+      total_seats,
+      seats_remaining,
+      user_id
     })
     .then(() => {
       return knex('rosters')
@@ -152,7 +156,7 @@ router.put('/:id', (req, res, next) => {
         .then((data) => {
           const roster = data;
           roster.forEach((element) => {
-						const subject = "The course " + courseTitle + " has been updated";
+						const subject = "The course " + title + " has been updated";
 						sendElasticEmail(element.email, subject, "classupdated");
           });
           res.send(data);
