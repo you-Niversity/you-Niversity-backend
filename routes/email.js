@@ -3,6 +3,7 @@ var querystring = require('querystring');
 var https = require('https');
 
 module.exports = {
+
   sendElasticEmail: function(to, subject, template) {
   	// Make sure to add your username and api_key below.
   	var post_data = querystring.stringify({
@@ -26,8 +27,10 @@ module.exports = {
   			'Content-Length': post_data.length
   		}
   	};
-  	var result = '';
+
+  	var result = null;
   	// Create the request object.
+
   	var post_req = https.request(post_options, function(res) {
   		res.setEncoding('utf8');
   		res.on('data', function (chunk) {
@@ -43,4 +46,5 @@ module.exports = {
   	post_req.end();
   	return result;
   }
+  
 };
