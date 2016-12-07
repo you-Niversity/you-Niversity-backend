@@ -1,15 +1,12 @@
 'use strict';
 
+//heroku run npm run-script seed
+
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
   return knex('classes').del()
     .then(function () {
       return Promise.all([
-
-
-//1480982400
-//1481068800
-//1481155200
 
         knex('classes').insert({
           id: 1,
