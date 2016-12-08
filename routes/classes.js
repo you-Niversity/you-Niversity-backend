@@ -2,6 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
+const boom = require('boom');
 
 const knex = require('../db/knex');
 const { sendElasticEmail } = require('../js/email.js');
@@ -81,16 +82,16 @@ router.post('/:id/comments', (req, res) => {
 });
 
 //add class
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
 
   const { title, image_url, date, unix_timestamp, lat, lng, address, city, state, zip_code, price, description, prerequisites, start_time, end_time, total_seats, seats_remaining, user_id} = req.body;
 
-  //more concise way to do this?
-  if (typeof Number(title) !== 'string' || typeof Number(image_url) !== 'string' || typeof Number(date) !== 'string' || typeof Number(address) !== 'string' || typeof Number(city) !== 'string' || typeof Number(state) !== 'string' || typeof Number(description) !== 'string' || typeof Number(prerequisites) !== 'string' || typeof Number(start_time) !== 'string' || typeof Number(end_time) !== 'string') {
-    //how to send this?
-    res.status(400).send("Invalid request");
-  }
+  console.log(!isNaN(title));
 
+  //more concise way to do this?
+  if (!isNaN(title) || !isNaN(image_url) || !isNaN(date) || !isNaN(city) || !isNaN(state) || !isNaN(description) || !isNaN(prerequisites)) {
+    return res.status(400).send('Bad Data');
+  }
 
   const newClass = {
     title,
@@ -119,11 +120,12 @@ router.post('/', (req, res) => {
 		.returning('id')
     .then((id) => {
       res.send(id);
-    })
-		.catch((err) => {
-			// res.status(500).json({err});
+    }).catch(err => {
+      res.status(406).send({err:err});
 		});
 });
+
+
 
 //edit class
 router.put('/:id', (req, res) => {

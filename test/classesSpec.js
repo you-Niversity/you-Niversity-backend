@@ -101,7 +101,7 @@ describe('POST /classes', () => {
     }
   };
 
-  xit('successfully creates a class', done => {
+  it('successfully creates a class', done => {
     request(app)
     .post('/classes')
     .type('form')
@@ -124,7 +124,7 @@ describe('POST /classes', () => {
    .type('form')
    .send(incorrectDataTypes.class)
    .end((err,res) =>{
-      expect(res.statusCode).to.equal(400);
+      expect(res.status).to.equal(400);
       done();
   });
 });
