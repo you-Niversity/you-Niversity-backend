@@ -3,17 +3,18 @@
 const express = require('express');
 const router = express.Router();
 const knex = require('../db/knex');
-const { sendElasticEmail } = require('./email.js');
+const { sendElasticEmail } = require('../js/email.js');
 
 
 //check if thread exists between two users
 router.get('/threadcheck/:sender_id/:teacher_id', function(req, res){
   return knex('message_threads')
-    .select('*')
+
     .where({
       'message_threads.sender_id' : req.params.sender_id,
       'message_threads.recipient_id': req.params.teacher_id
     })
+
     .orWhere({
       'message_threads.recipient_id' : req.params.sender_id,
       'message_threads.sender_id': req.params.teacher_id
@@ -23,13 +24,14 @@ router.get('/threadcheck/:sender_id/:teacher_id', function(req, res){
       var exists = data.length > 0;
       res.send({data, exists});
     })
+
     .catch(function(err){
   		res.status(500).json({err});
   	});
 });
 
 //get all of one user's threads
-router.get('/:id/', function(req, res) {
+router.get('/:id', function(req, res) {
   return knex('message_threads')
     .join('users AS sender', {'message_threads.sender_id' : 'sender.id'})
     .join('users AS recipient', {'message_threads.recipient_id' : 'recipient.id'})

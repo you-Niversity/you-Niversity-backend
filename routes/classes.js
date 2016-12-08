@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 const knex = require('../db/knex');
-const { sendElasticEmail } = require('./email.js');
+const { sendElasticEmail } = require('../js/email.js');
 
 router.get('/', (req, res) => {
   knex('classes')

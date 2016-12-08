@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const knex = require('../db/knex');
-const { sendElasticEmail } = require('./email.js');
+const { sendElasticEmail } = require('../js/email.js');
 
 
 //grabs roster for specific class, joins with user info

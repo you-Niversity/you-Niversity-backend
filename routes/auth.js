@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { validatePassword, userExistsInDB } = require('../js/validations.js');
-const { sendElasticEmail } = require('./email.js');
+const { sendElasticEmail } = require('../js/email.js');
 
 
 router.post('/signup', function(req, res, next){

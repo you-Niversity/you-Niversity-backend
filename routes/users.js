@@ -113,6 +113,7 @@ router.delete('/:id', function(req, res) {
   .where({id: req.params.id})
   .then(function() {
     console.log('user account deleted');
+    res.sendStatus(200);
   })
   .catch(function(err){
 		res.status(500).json({err});
