@@ -85,6 +85,13 @@ router.post('/', (req, res) => {
 
   const { title, image_url, date, unix_timestamp, lat, lng, address, city, state, zip_code, price, description, prerequisites, start_time, end_time, total_seats, seats_remaining, user_id} = req.body;
 
+  //more concise way to do this?
+  if (typeof Number(title) !== 'string' || typeof Number(image_url) !== 'string' || typeof Number(date) !== 'string' || typeof Number(address) !== 'string' || typeof Number(city) !== 'string' || typeof Number(state) !== 'string' || typeof Number(description) !== 'string' || typeof Number(prerequisites) !== 'string' || typeof Number(start_time) !== 'string' || typeof Number(end_time) !== 'string') {
+    //how to send this?
+    res.status(400).send("Invalid request");
+  }
+
+
   const newClass = {
     title,
     image_url,
@@ -114,7 +121,7 @@ router.post('/', (req, res) => {
       res.send(id);
     })
 		.catch((err) => {
-			res.status(500).json({err});
+			// res.status(500).json({err});
 		});
 });
 

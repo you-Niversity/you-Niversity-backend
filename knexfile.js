@@ -1,7 +1,7 @@
 'use strict';
 
-var pg = require('pg');
-pg.defaults.ssl = true;
+// var pg = require('pg');
+// pg.defaults.ssl = true;
 
 module.exports = {
 
@@ -12,6 +12,10 @@ module.exports = {
     'postgres://localhost/youniversity'
   },
 
+  test: {
+    client: 'pg',
+    connection: 'postgres://localhost/youniversity_test'
+  },
 
   production: {
   client: 'postgresql',

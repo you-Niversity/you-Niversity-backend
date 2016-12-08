@@ -247,7 +247,7 @@ exports.seed = function(knex, Promise) {
           unix_timestamp: 1489449600,
           lat: 40.588476,
           lng: -105.07421199999999,
-          address: ' 242 Linden St',
+          address: '242 Linden St',
           city: 'Fort Collins',
           state: 'CO',
           zip_code: 80524,
