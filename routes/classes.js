@@ -6,7 +6,7 @@ const router = express.Router();
 const knex = require('../db/knex');
 const { sendElasticEmail } = require('./email.js');
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
   knex('classes')
 		// .where('unix_timestamp', '>', Number((Date.now()).toString().slice(0,10)))
 		.orderBy('unix_timestamp', 'asc')
@@ -14,7 +14,7 @@ router.get('/', (req, res, next) => {
       res.send(data);
     })
 		.catch((err) => {
-			res.status(500).json({err:err});
+			res.status(500).json({err});
 		});
 });
 
@@ -31,11 +31,10 @@ router.get('/:id', (req, res, next) => {
     .join('users', {'users.id' : 'classes.user_id'})
     .select('*', 'classes.id AS id', 'users.id AS user_id', 'classes.city AS city')
     .where({'classes.id' : id})
-  //following is going to require changes on front end
     .first()
     .then((data) => {
       if (!data) {
-        res.status(404).json({ err: err });
+        res.status(404).json({ err: "class doesn't exist" });
       }
 
       res.send(data);
@@ -47,7 +46,7 @@ router.get('/:id', (req, res, next) => {
 
 
 //get class comments
-router.get('/:id/comments', (req, res, next) => {
+router.get('/:id/comments', (req, res) => {
   knex('comments')
     .join('classes', {'classes.id' : 'comments.class_id'})
     .join('users', {'users.id': 'comments.commenter_id'})
@@ -57,11 +56,11 @@ router.get('/:id/comments', (req, res, next) => {
       res.send(data);
     })
 		.catch((err) => {
-			res.status(500).json({err:err});
+			res.status(500).json({err});
 		});
 });
 
-router.post('/:id/comments', (req, res, next) => {
+router.post('/:id/comments', (req, res) => {
 
   const { commenter_id, comment } = req.body;
 
@@ -77,7 +76,7 @@ router.post('/:id/comments', (req, res, next) => {
       res.send(data);
     })
 		.catch((err) => {
-			res.status(500).json({err:err});
+			res.status(500).json({err});
 		});
 });
 
@@ -115,12 +114,12 @@ router.post('/', (req, res) => {
       res.send(id);
     })
 		.catch((err) => {
-			res.status(500).json({ err: err });
+			res.status(500).json({err});
 		});
 });
 
 //edit class
-router.put('/:id', (req, res, next) => {
+router.put('/:id', (req, res) => {
 
   const id = req.params.id;
 
@@ -159,15 +158,15 @@ router.put('/:id', (req, res, next) => {
 						const subject = "The course " + title + " has been updated";
 						sendElasticEmail(element.email, subject, "classupdated");
           });
-          res.send(data);
+          res.send(roster);
         });
     })
 		.catch((err) => {
-			res.status(500).json({err:err});
+			res.status(500).json({err});
 		});
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', (req, res) => {
   knex('classes')
   	.delete()
   	.where({id: req.params.id})
@@ -180,7 +179,7 @@ router.delete('/:id', (req, res, next) => {
       res.json(title);
     })
 	.catch((err) => {
-		res.status(500).json({err:err});
+		res.status(500).json({err});
 	});
 });
 
