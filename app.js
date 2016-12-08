@@ -2,20 +2,20 @@
 
 require('dotenv').load();
 
-var express = require('express');
-var bodyParser = require('body-parser');
-var logger = require('morgan');
-var methodOverride = require('method-override');
-var cors = require('cors');
+const express = require('express');
+const bodyParser = require('body-parser');
+const logger = require('morgan');
+const methodOverride = require('method-override');
+const cors = require('cors');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-var classes = require('./routes/classes');
-var auth = require('./routes/auth');
-var rosters = require('./routes/rosters');
-var messages = require('./routes/messages');
+const index = require('./routes/index');
+const users = require('./routes/users');
+const classes = require('./routes/classes');
+const auth = require('./routes/auth');
+const rosters = require('./routes/rosters');
+const messages = require('./routes/messages');
 
-var app = express();
+const app = express();
 
 app.use(cors());
 app.use(logger('dev'));
@@ -34,7 +34,7 @@ app.get('/favicon.ico', function(req, res) {
     res.send(200);
 });
 
-var port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;
 app.listen(port, function() {
     console.log("Listening on port " + port);
 });

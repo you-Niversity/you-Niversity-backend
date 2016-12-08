@@ -1,12 +1,12 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
-var knex = require('../db/knex');
+const express = require('express');
+const router = express.Router();
+const knex = require('../db/knex');
 
 
 //get all users
-router.get('/', function(req, res, next){
+router.get('/', function(req, res){
   return knex ('users')
     .select('*')
     .then(function(data){
@@ -14,25 +14,27 @@ router.get('/', function(req, res, next){
       res.json(data);
     })
     .catch(function(err){
-  		res.status(500).json({err:err});
+  		res.status(500).json({err});
   	});
 });
 
 //get user
-router.get('/:id', function(req, res, next) {
+router.get('/:id', function(req, res) {
   return knex('users')
     .select('*')
-    .where({id: req.params.id})
+    .where({
+      id: req.params.id
+    })
     .then(function(data){
       res.send(data);
     })
     .catch(function(err){
-  		res.status(500).json({err:err});
+  		res.status(500).json({err});
   	});
 });
 
 //get user classes teaching
-router.get('/:id/teaching', function(req, res, next) {
+router.get('/:id/teaching', function(req, res) {
   return knex('users')
     .join('classes', {'users.id': 'classes.user_id'})
     .select('users.id AS user_id', 'classes.id AS class_id', 'title', 'image_url', 'date', 'unix_timestamp')
@@ -43,12 +45,12 @@ router.get('/:id/teaching', function(req, res, next) {
       res.send(data);
     })
     .catch(function(err){
-  		res.status(500).json({err:err});
+  		res.status(500).json({err});
   	});
 });
 
 //get user classes taking
-router.get('/:id/taking', function(req, res, next) {
+router.get('/:id/taking', function(req, res) {
   return knex('rosters')
     .join('users', {'rosters.user_id': 'users.id'})
     .join('classes', {'rosters.class_id': 'classes.id'})
@@ -60,12 +62,12 @@ router.get('/:id/taking', function(req, res, next) {
       res.send(data);
     })
     .catch(function(err){
-  		res.status(500).json({err:err});
+  		res.status(500).json({err});
   	});
 });
 
 //get user reviews
-router.get('/:id/reviews', function(req, res, next) {
+router.get('/:id/reviews', function(req, res) {
   return knex('reviews')
     .join('users', {'reviews.reviewer_id': 'users.id'})
     .select('reviews.id AS id', 'reviews.reviewer_id AS reviewer_id', 'first_name', 'last_name', 'profile_pic', 'review', 'creation_date')
@@ -75,24 +77,27 @@ router.get('/:id/reviews', function(req, res, next) {
       res.send(data);
     })
     .catch(function(err){
-  		res.status(500).json({err:err});
+  		res.status(500).json({err});
   	});
 });
 
-router.post('/:id/reviews', function(req, res, next) {
-  var review = {
+router.post('/:id/reviews', function(req, res) {
+
+  const { reviewer_id, review } = req.body;
+
+  var newReview = {
     teacher_id: req.params.id,
-    reviewer_id: 1,
-    review: req.body.review,
+    reviewer_id,
+    review,
     creation_date: new Date()
   };
   return knex('reviews')
-    .insert(review)
+    .insert(newReview)
     .then(function(data){
       res.send(data);
     })
     .catch(function(err){
-  		res.status(500).json({err:err});
+  		res.status(500).json({err});
   	});
 });
 
@@ -102,7 +107,7 @@ router.put('/:id', function(req, res, next) {
 });
 
 //delete user
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', function(req, res) {
   knex('users')
   .delete()
   .where({id: req.params.id})
@@ -110,7 +115,7 @@ router.delete('/:id', function(req, res, next) {
     console.log('user account deleted');
   })
   .catch(function(err){
-		res.status(500).json({err:err});
+		res.status(500).json({err});
 	});
 });
 
