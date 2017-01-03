@@ -2,7 +2,6 @@
 
 const express = require('express');
 const router = express.Router();
-const boom = require('boom');
 
 const knex = require('../db/knex');
 const { sendElasticEmail } = require('../js/email.js');
@@ -85,8 +84,6 @@ router.post('/:id/comments', (req, res) => {
 router.post('/', (req, res, next) => {
 
   const { title, image_url, date, unix_timestamp, lat, lng, address, city, state, zip_code, price, description, prerequisites, start_time, end_time, total_seats, seats_remaining, user_id} = req.body;
-
-  console.log(!isNaN(title));
 
   //more concise way to do this?
   if (!isNaN(title) || !isNaN(image_url) || !isNaN(date) || !isNaN(city) || !isNaN(state) || !isNaN(description) || !isNaN(prerequisites)) {
